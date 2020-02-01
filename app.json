@@ -1,0 +1,13 @@
+{
+  "name":"team1",
+  "description": "team1 built with generator-react-firebase",
+  "repository": "https://github.com/shaurya157/team1",
+  "keywords": [
+    "generator-react-firebase",
+    "react",
+    "redux",
+    "firebase",
+    "redux-firebase",
+    "react-redux-firebase",
+  ]
+}

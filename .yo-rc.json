@@ -1,0 +1,25 @@
+{
+  "generator-react-firebase": {
+    "promptValues": {
+      "githubUser": "shaurya157",
+      "firebaseName": "team1-30540",
+      "firebaseKey": "AIzaSyDhcEnI743FnYs1FSxEZCRYKyGz7OiGxW0",
+      "includeRedux": true,
+      "includeFirestore": false,
+      "otherFeatures": [
+        "Continuous Integration config",
+        "Firebase Cloud Messaging",
+        "Firebase Functions (with ESNext support)",
+        "Tests for Firebase Functions (Mocha + Chai)",
+        "Tests for React Components (Jest)",
+        "Tests for UI (Cypress)",
+        "Client Side Error Reporting (Stackdriver)"
+      ],
+      "messagingSenderId": "1095170967862",
+      "appId": "1:1095170967862:web:096e4e918572d80ac4cb97",
+      "firebasePublicVapidKey": "BDB3uiPhsrk1zbt5WaK1LnsBOu479Z3wRPTG7kkrRSfzdnljotOfP1KW2_yXSOM3HZ90ivywvKBIlT5meI9q-jA",
+      "ciProvider": "travis",
+      "deployTo": "heroku"
+    }
+  }
+}
