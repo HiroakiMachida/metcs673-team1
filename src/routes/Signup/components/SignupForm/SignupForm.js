@@ -19,16 +19,9 @@ function SignupForm({ onSubmit }) {
   }
 
   return (
-    <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit}>
+    <Formik initialValues={{ email: 'email', password: 'password' , paypal: 'paypal account' }} onSubmit={handleSubmit}>
       {({ touched, isSubmitting }) => (
         <Form className={classes.root}>
-          <Field
-            type="username"
-            name="username"
-            component={TextField}
-            margin="normal"
-            fullWidth
-          />
           <Field
             type="email"
             name="email"
@@ -40,6 +33,13 @@ function SignupForm({ onSubmit }) {
           <Field
             type="password"
             name="password"
+            component={TextField}
+            margin="normal"
+            fullWidth
+          />
+          <Field
+            type="text"
+            name="paypal"
             component={TextField}
             margin="normal"
             fullWidth

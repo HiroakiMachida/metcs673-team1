@@ -30,7 +30,7 @@ function SignupPage() {
     return firebase
       .createUser(creds, {
         email: creds.email,
-        username: creds.username
+        paypal: creds.paypal
       })
       .catch(err => showError(err.message))
   }
