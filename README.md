@@ -27,26 +27,10 @@
 
 ## Getting Started
 
-1. Install app and functions dependencies: `npm i && npm i --prefix functions` or `yarn install && yarn install --cwd functions`
-1. Create `src/config.js` file that looks like so if it does not already exist:
-    ```js
-    const firebase = {
-      // Config from Firebase console
-    }
-
-    // Overrides for for react-redux-firebase/redux-firestore config
-    export const reduxFirebase = {}
-
-    export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
-
-    export default {
-      env,
-      firebase,
-      reduxFirebase,
-      publicVapidKey
-    }
-    ```
-1. Start Development server: `npm start`
+1. git clone https://github.com/HiroakiMachida/metcs673-team1
+1. get config.js from Slack and save it as src/config.js
+1. npm install
+1. npm start
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
