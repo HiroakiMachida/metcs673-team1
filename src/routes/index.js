@@ -6,6 +6,7 @@ import LoginRoute from './Login'
 import SignupRoute from './Signup'
 import ProjectsRoute from './Projects'
 import SellingPostRoute from './SellingPost'
+import PostListRoute from './PostList'
 import AccountRoute from './Account'
 import NotFoundRoute from './NotFound'
 
@@ -20,6 +21,7 @@ export default function createRoutes(store) {
           ProjectsRoute,
           SignupRoute,
           SellingPostRoute,
+          PostListRoute,
           LoginRoute
           /* Add More Routes Here */
         ].map((settings, index) => (
