@@ -27,7 +27,7 @@ function useProjectsList() {
   // Create listeners based on current users UID
   useFirebaseConnect([
     {
-      path: 'projects',
+      path: 'books',
       queryParams: [
         //'orderByChild=createdBy',
         //`equalTo=${auth.uid}`,
@@ -37,9 +37,7 @@ function useProjectsList() {
   ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.firebase.ordered.projects)
-
-  //const projects = useSelector(state => state.firebase.ordered.projects)
+  const projects = useSelector(state => state.firebase.ordered.books)
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)

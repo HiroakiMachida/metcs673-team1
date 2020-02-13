@@ -31,6 +31,9 @@
 1. get config.js from Slack and save it as src/config.js
 1. npm install
 1. npm start
+1. http://localhost:3000/sellingpost for adding selling posts
+1. http://localhost:3000/posts for searching
+1. http://localhost:3000/dashboard for dashboard
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
