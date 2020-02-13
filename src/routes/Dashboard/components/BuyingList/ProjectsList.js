@@ -27,14 +27,15 @@ function useProjectsList() {
     {
       path: 'books',
       queryParams: [
-        'orderByChild=createdBy',
-        `equalTo=${auth.uid}`,
+//        'orderByChild=createdBy',
+//        `equalTo=${auth.uid}`,
         'limitToLast=10'
       ]
     }
   ])
 
   // Get projects from redux state
+
   const projects = useSelector(state => state.firebase.ordered.books)
 
   // New dialog
@@ -62,7 +63,7 @@ function useProjectsList() {
       })
   }
 
-  return { projects, addProject, newDialogOpen, toggleDialog }
+  return { projects, addProject, newDialogOpen, toggleDialog, auth }
 }
 
 function ProjectsList() {
@@ -71,7 +72,8 @@ function ProjectsList() {
     projects,
     addProject,
     newDialogOpen,
-    toggleDialog
+    toggleDialog,
+    auth
   } = useProjectsList()
 
   // Show spinner while projects are loading
@@ -83,7 +85,7 @@ function ProjectsList() {
     <div className={classes.root}>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.map((project, ind) => {
+          projects.filter(p => p && p.value.buyer_id == auth.uid).map((project, ind) => {  
             return (
               <BuyingPostTile
                 key={`Project-${project.key}-${ind}`}

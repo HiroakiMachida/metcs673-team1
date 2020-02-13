@@ -25,17 +25,18 @@ function useProjectsList() {
   // Get auth from redux state
   const auth = useSelector(state => state.firebase.auth)
   // Create listeners based on current users UID
+  
   useFirebaseConnect([
     {
       path: 'books',
       queryParams: [
-        //'orderByChild=createdBy',
-        //`equalTo=${auth.uid}`,
+//        'orderByChild=createdBy',
+//        `equalTo=${auth.uid}`,
         'limitToLast=10'
       ]
     }
   ])
-
+  
   // Get projects from redux state
   const projects = useSelector(state => state.firebase.ordered.books)
 
@@ -64,7 +65,7 @@ function useProjectsList() {
       })
   }
 
-  return { projects, addProject, newDialogOpen, toggleDialog }
+  return { projects, addProject, newDialogOpen, toggleDialog, auth }
 }
 
 function ProjectsList() {
@@ -73,7 +74,8 @@ function ProjectsList() {
     projects,
     addProject,
     newDialogOpen,
-    toggleDialog
+    toggleDialog,
+    auth
   } = useProjectsList()
 
   // Show spinner while projects are loading
@@ -90,7 +92,7 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.map((project, ind) => {
+          projects.filter(p => p && p.value.createdBy == auth.uid).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}

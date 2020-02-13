@@ -23,6 +23,7 @@ function useProjectsList() {
   // Get auth from redux state
   const auth = useSelector(state => state.firebase.auth)
   // Create listeners based on current users UID
+  /***
   useFirebaseConnect([
     {
       path: 'books',
@@ -33,7 +34,7 @@ function useProjectsList() {
       ]
     }
   ])
-
+   */
   // Get projects from redux state
   const projects = useSelector(state => state.firebase.ordered.books)
 
