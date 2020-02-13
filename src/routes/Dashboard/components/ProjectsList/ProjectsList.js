@@ -9,18 +9,16 @@ import {
 } from 'react-redux-firebase'
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
-import ProjectTile from '../ProjectTile'
-import NewProjectTile from '../NewProjectTile'
-import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
+import SellingList from '../SellingList'
+import BuyingList from '../BuyingList'
+
 
 const useStyles = makeStyles(styles)
 
 function useProjectsList() {
   const { showSuccess, showError } = useNotifications()
   const firebase = useFirebase()
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
 
   // Get auth from redux state
   const auth = useSelector(state => state.firebase.auth)
@@ -29,8 +27,8 @@ function useProjectsList() {
     {
       path: 'projects',
       queryParams: [
-        'orderByChild=title',
-        `startAt=${params.get('title')}`,
+        'orderByChild=createdBy',
+        `equalTo=${auth.uid}`,
         'limitToLast=10'
       ]
     }
@@ -64,7 +62,7 @@ function useProjectsList() {
       })
   }
 
-  return { projects, addProject, newDialogOpen, toggleDialog, params }
+  return { projects, addProject, newDialogOpen, toggleDialog }
 }
 
 function ProjectsList() {
@@ -73,8 +71,7 @@ function ProjectsList() {
     projects,
     addProject,
     newDialogOpen,
-    toggleDialog,
-    params
+    toggleDialog
   } = useProjectsList()
 
   // Show spinner while projects are loading
@@ -85,30 +82,21 @@ function ProjectsList() {
   return (
     <div className={classes.root}>
       <form action="/posts/">
-        <input name="title" type="text" placeholder={params.get('title')||"Search"} />
+        <input name="title" type="text" placeholder="Search" />
         <button>Search</button>
       </form>
-      <NewProjectDialog
-        onSubmit={addProject}
-        open={newDialogOpen}
-        onRequestClose={toggleDialog}
-      />
-      <div className={classes.tiles}>
-        {!isEmpty(projects) &&
-          projects.map((project, ind) => {
-            return (
-              <ProjectTile
-                key={`Project-${project.key}-${ind}`}
-                name={project && project.value.title}
-                title={project && project.value.title}
-                isbn={project && project.value.isbn}
-                status={project && project.value.status}
-                price={project && project.value.price}
-                projectId={project.key}
-              />
-            )
-          })}
-      </div>
+      <div className="flex-row-center">
+        <div className={classes.section}>
+          <h2>Selling</h2>
+        </div>
+      </div>    
+      <SellingList />
+      <div className="flex-row-center">
+        <div className={classes.section}>
+          <h2>Buying</h2>
+        </div>
+      </div>    
+      <BuyingList />
     </div>
   )
 }
