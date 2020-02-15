@@ -10,6 +10,7 @@ import PostListRoute from './PostList'
 import DashboardRoute from './Dashboard'
 import AccountRoute from './Account'
 import NotFoundRoute from './NotFound'
+import BuybookRoute from './Buybook'
 
 export default function createRoutes(store) {
   return (
@@ -24,7 +25,8 @@ export default function createRoutes(store) {
           SellingPostRoute,
           PostListRoute,
           DashboardRoute,
-          LoginRoute
+          LoginRoute,
+	  BuybookRoute
           /* Add More Routes Here */
         ].map((settings, index) => (
           <Route key={`Route-${index}`} {...settings} />
