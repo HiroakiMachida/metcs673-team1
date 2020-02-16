@@ -42,14 +42,34 @@ function useProjectsList() {
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
   function addProject(newInstance) {
+
+    const preview = document.querySelector('img');
+    const file = document.getElementById("image").files[0]
+    const reader = new FileReader();
+  
+    reader.addEventListener("load", function () {
+      // convert image file to base64 string
+      persist(reader.result)
+      preview.src = reader.result;
+    }, false);
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  
+  
+
     if (!auth.uid) {
       return showError('You must be logged in to create a project')
     }
+    var persist = function(arg1){
     return firebase
       .push('books', {
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+        attached: arg1
+
       })
       .then(() => {
         toggleDialog()
@@ -60,6 +80,7 @@ function useProjectsList() {
         showError(err.message || 'Could not add project')
         return Promise.reject(err)
       })
+    }
   }
 
   return { projects, addProject, newDialogOpen, toggleDialog }
@@ -67,7 +88,7 @@ function useProjectsList() {
 
 function ProjectsList() {
   const classes = useStyles()
-  const {
+  let {
     projects,
     addProject,
     newDialogOpen,
@@ -99,6 +120,7 @@ function ProjectsList() {
                 status={project && project.value.status}
                 price={project && project.value.price}
                 projectId={project.key}
+                attached={project && project.value.attached}
               />
             )
           })}

@@ -13,7 +13,7 @@ import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, price, projectId, showDelete }) {
+function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, attached }) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -36,6 +36,9 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete }
 
   return (
     <Paper className={classes.root}>
+      <div className={classes.top}>
+        {attached ? (<img src={attached} height="50" width="50" />):''}
+      </div>
       <div className={classes.top}>
         <span className={classes.name} onClick={goToProject}>
           {name || 'No Name'}

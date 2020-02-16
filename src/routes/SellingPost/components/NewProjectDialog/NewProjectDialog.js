@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState, setState } from 'react';
 import PropTypes from 'prop-types'
 import { Formik, Field, Form } from 'formik'
-import { TextField } from 'formik-material-ui'
+import { TextField} from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -19,6 +19,22 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
     return onSubmit(values).then(() => {
       setSubmitting(false)
     })
+  }
+
+  function previewFile() {
+    const preview = document.querySelector('img');
+    const file = document.getElementById("image").files[0]
+    const reader = new FileReader();
+  
+    reader.addEventListener("load", function () {
+      // convert image file to base64 string
+      preview.src = reader.result;
+    }, false);
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+
   }
 
   return (
@@ -56,6 +72,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
                 margin="normal"
                 fullWidth
               />
+              <input id="image" type="file"/>
             </DialogContent>
             <DialogActions>
               <Button onClick={onRequestClose} color="secondary">
