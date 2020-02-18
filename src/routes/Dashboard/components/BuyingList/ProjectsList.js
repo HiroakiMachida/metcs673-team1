@@ -83,6 +83,7 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
+      <h2>Purchased</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
           projects.filter(p => p && p.value.buyer_id == auth.uid).map((project, ind) => {  

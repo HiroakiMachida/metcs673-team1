@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
+
 import { useSelector } from 'react-redux'
 import {
   useFirebase,
@@ -12,6 +15,7 @@ import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './ProjectsList.styles'
 import SellingList from '../SellingList'
 import BuyingList from '../BuyingList'
+import SearchBar from 'material-ui-search-bar'
 
 
 const useStyles = makeStyles(styles)
@@ -78,24 +82,18 @@ function ProjectsList() {
   if (!isLoaded(projects)) {
     return <LoadingSpinner />
   }
+  function doSomethingWith(a){
+
+  }
+  const serch_value =''
 
   return (
     <div className={classes.root}>
       <form action="/posts/">
         <input name="title" type="text" placeholder="Search" />
-        <button>Search</button>
+        <button>Search</button>        
       </form>
-      <div className="flex-row-center">
-        <div className={classes.section}>
-          <h2>Selling</h2>
-        </div>
-      </div>    
-      <SellingList />
-      <div className="flex-row-center">
-        <div className={classes.section}>
-          <h2>Buying</h2>
-        </div>
-      </div>    
+      <SellingList/>
       <BuyingList />
     </div>
   )

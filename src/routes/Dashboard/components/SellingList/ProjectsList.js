@@ -16,6 +16,7 @@ import styles from './ProjectsList.styles'
 import { createSelector } from 'reselect'
 
 
+
 const useStyles = makeStyles(styles)
 
 function useProjectsList() {
@@ -85,6 +86,7 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
+      <h2>Selling</h2>
       <NewProjectDialog
         onSubmit={addProject}
         open={newDialogOpen}
