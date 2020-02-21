@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
+import { BUYBOOK_PATH } from 'constants/paths'
 
 const useStyles = makeStyles(styles)
 
@@ -20,7 +21,8 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete }
   const { showError, showSuccess } = useNotifications()
 
   function goToProject() {
-    return history.push(`${LIST_PATH}/${projectId}`)
+    //TODO
+    return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
   }
 
   function deleteProject() {
