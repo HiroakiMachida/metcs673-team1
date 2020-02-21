@@ -43,7 +43,6 @@ function useProjectsList() {
 }
 
 function BuybookForm({ onSubmit }) {
-
   const classes = useStyles()
 
   function handleSubmit(values, { setSubmitting }) {
@@ -104,7 +103,6 @@ function BuybookForm({ onSubmit }) {
             fullWidth
           />
           <Field
-            
             initialValues="Init"
             label="ISBN"
             type="text"
@@ -168,7 +166,6 @@ function BuybookForm({ onSubmit }) {
     </Formik>
   )
 }
-
 
 BuybookForm.propTypes = {
   onSubmit: PropTypes.func.isRequired

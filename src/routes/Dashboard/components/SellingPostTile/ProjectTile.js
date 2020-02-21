@@ -36,7 +36,7 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
 
   function updateProject() {
     return firebase
-      .update(`projects/${projectId}`, { delivery_status: 'shipped' })
+      .update(`books/${projectId}`, { delivery_status: 'shipped' })
       .then(() => showSuccess('Post updated successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
