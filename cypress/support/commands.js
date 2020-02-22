@@ -1,25 +1,19 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
-import 'firebase/auth'
-import 'firebase/storage'
-import 'firebase/firestore'
-import { attachCustomCommands } from 'cypress-firebase'
-
-const projectId = Cypress.env('FIREBASE_PROJECT_ID')
-const env = Cypress.env('env') || 'stage'
-const apiKey =
-  Cypress.env(`${env.toUpperCase()}_FIREBASE_API_KEY`) ||
-  Cypress.env('FIREBASE_API_KEY')
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/firestore';
+import { attachCustomCommands } from 'cypress-firebase';
 
 const fbConfig = {
-  apiKey,
-  authDomain: `${projectId}.firebaseapp.com`,
-  databaseURL: `https://${projectId}.firebaseio.com`,
-  projectId: `${projectId}`,
-  storageBucket: `${projectId}.appspot.com`
-}
+  apiKey: "AIzaSyDQ4kXM-H_M4y5LabXQRGnEGOSEjHaB0DQ",
+  authDomain: "team1-test-67251.firebaseapp.com",
+  databaseURL: "https://team1-test-67251.firebaseio.com",
+  projectId: "team1-test-67251",
+  storageBucket: "team1-test-67251.appspot.com",
+  messagingSenderId: "374277221605",
+  appId: "1:374277221605:web:d0c37b704a1d48dd90780c"
+};
 
-window.fbInstance = firebase.initializeApp(fbConfig)
+firebase.initializeApp(fbConfig);
 
-// Custom commands including login, signup, callRtdb, and callFirestore
 attachCustomCommands({ Cypress, cy, firebase })

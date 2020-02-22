@@ -27,6 +27,7 @@
 
 ## Getting Started
 
+### Install
 1. git clone https://github.com/HiroakiMachida/metcs673-team1
 1. get config.js from Slack and save it as src/config.js
 1. npm install
@@ -34,6 +35,12 @@
 1. http://localhost:3000/sellingpost for adding selling posts
 1. http://localhost:3000/posts for searching
 1. http://localhost:3000/dashboard for dashboard
+
+### Run test
+1. Get cypress.env.json from Slack and save it on the root directory
+1. Get serviceAccount.json from Slack and save it on the root directory
+1. node_modules/.bin/cypress open
+1. Click any of .spec.js files
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 

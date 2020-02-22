@@ -3,7 +3,12 @@ import { createSelector } from '../utils'
 describe('Projects Page', () => {
   beforeEach(() => {
     // Login using custom token
-    cy.login()
+    cy.logout()
+    cy.visit('/login')
+    cy.get('input[name="email"]').type('cypresstest@email.com')
+    cy.get('input[name="password"]').type('cypresstest')
+    cy.get('button').click()          // Click on button
+    cy.wait(5000)
     // Go to projects page
     cy.visit('/projects')
   })
