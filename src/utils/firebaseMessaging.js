@@ -100,5 +100,5 @@ export function initializeMessaging(dispatch) {
   })
 
   // Request permission to setup browser notifications
-  requestPermission()
+  //requestPermission()
 }

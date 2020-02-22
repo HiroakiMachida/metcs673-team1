@@ -4,7 +4,13 @@ describe('Projects Page', () => {
   beforeEach(() => {
     // Login using custom token
     cy.logout()
-    cy.visit('/login')
+    cy.visit('/login',{
+      onBeforeLoad (win) {
+        // https://on.cypress.io/stub
+        cy.stub(win.Notification, 'permission', 'granted')
+        cy.stub(win, 'Notification').as('Notification')
+      },
+    })
     cy.get('input[name="email"]').type('cypresstest@email.com')
     cy.get('input[name="password"]').type('cypresstest')
     cy.get('button').click()          // Click on button
