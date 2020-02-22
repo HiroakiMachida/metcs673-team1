@@ -68,6 +68,13 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
                 disabled={true}
               />
               <Field
+                name="recepient"
+                component={TextField}
+                margin="normal"
+                placeholder="Your name"
+                fullWidth
+              />
+              <Field
                 name="address"
                 component={TextField}
                 margin="normal"

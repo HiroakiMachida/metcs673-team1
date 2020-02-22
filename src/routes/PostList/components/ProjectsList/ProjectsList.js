@@ -31,7 +31,7 @@ function useProjectsList() {
       queryParams: [
         'orderByChild=title',
         `startAt=${params.get('title')}`,
-        'limitToLast=10'
+        'limitToLast=100'
       ]
     }, {
       path: 'users'
@@ -55,11 +55,13 @@ function useProjectsList() {
     return firebase
       .update('books/'+book.key, {
         ...newInstance,
+        buyer_id: auth.uid,
         delivery_status: 'sold'
       })
       .then(() => {
         toggleDialog()
-        showSuccess('Project added successfully')
+        showSuccess('Bought it successfully')
+        window.location.href = "/dashboard";
       })
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
@@ -105,7 +107,7 @@ function ProjectsList() {
       <h2>Search result</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.map((project, ind) => {
+          projects.filter(e=>!e.value.delivery_status).map((project, ind) => {
             return (
               <ProjectTile
                 key={`Project-${project.key}-${ind}`}

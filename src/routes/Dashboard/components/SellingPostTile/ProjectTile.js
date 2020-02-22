@@ -13,7 +13,7 @@ import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached }) {
+function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address }) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -23,20 +23,9 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
     return history.push(`${LIST_PATH}/${projectId}`)
   }
 
-  function deleteProject() {
-    return firebase
-      .remove(`projects/${projectId}`)
-      .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not delete project')
-        return Promise.reject(err)
-      })
-  }
-
   function updateProject() {
     return firebase
-      .update(`books/${projectId}`, { delivery_status: 'shipped' })
+      .update(`books/${projectId}`, { delivery_status: 'shipping' })
       .then(() => showSuccess('Post updated successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
@@ -46,10 +35,27 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
   }
 
   return (
-    <Paper className={classes.root} style={delivery_status ? {background: "grey"} : {}}>
+    <Paper className={classes.root}
+      style={delivery_status=='received'?{background:"grey"}:{}}
+    >
+      <div className={classes.top}>
+        <span className={classes.delivery_status} onClick={goToProject} >
+          {delivery_status=='received' ? 'Received by buyer.' : ''}
+        </span>
+      </div>
+      <div className={classes.top}>
+        <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
+          {delivery_status=='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
+          {delivery_status=='sold' ? <br/>: ''}
+          {delivery_status=='sold' ? recepient: ''}
+          {delivery_status=='sold' ? <br/>: ''}
+          {delivery_status=='sold' ? address: ''}
+          {delivery_status=='shipping' ? 'Shipping now' : ''}
+        </span>
+      </div>
       <div className={classes.top}>
         {attached ? (<img src={attached} height="50" width="50" />):''}
-        {showDelete ? (
+        {delivery_status=="sold" ? (
           <Tooltip title="shipped">
             <IconButton onClick={updateProject}>
               <LocalShippingIcon />
@@ -75,16 +81,6 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
       <div className={classes.top}>
         <span className={classes.price} onClick={goToProject}>
           {price || 'No Price'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.buyer_id} onClick={goToProject}>
-          {buyer_id || 'No Buyer'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.delivery_status} onClick={goToProject}>
-          {delivery_status ? `Delivery status:${delivery_status}` : ''}
         </span>
       </div>
     </Paper>

@@ -50,7 +50,7 @@ function useProjectsList() {
     reader.addEventListener("load", function () {
       // convert image file to base64 string
       persist(reader.result)
-      preview.src = reader.result;
+      //preview.src = reader.result;
     }, false);
   
     if (file) {

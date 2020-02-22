@@ -13,7 +13,7 @@ import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, price, projectId, showDelete }) {
+function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached }) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -36,7 +36,7 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
 
   function updateProject() {
     return firebase
-      .update(`projects/${projectId}`, { delivery_status: 'received' })
+      .update(`books/${projectId}`, { delivery_status: 'received' })
       .then(() => showSuccess('Book received successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
@@ -46,13 +46,23 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
   }
 
   return (
-    <Paper className={classes.root} style={delivery_status=="received" ? {background: "grey"} : {}}>
+    <Paper className={classes.root}
+      style={delivery_status=='received'?{background:"grey"}:{}}
+    >
       <div className={classes.top}>
-        <span className={classes.name} onClick={goToProject}>
-          {name || 'No Name'}
+        <span className={classes.delivery_status} onClick={goToProject}>
+          {delivery_status=="received" ? 'Received already.' : ''}
         </span>
-        {showDelete ? (
-          <Tooltip title="shipped">
+      </div>
+      <div className={classes.top}>
+        <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
+        {delivery_status=="shipping" ? 'Shipping now! Click "received" when received.' : ''}
+        </span>
+      </div>
+      <div className={classes.top}>
+        {attached ? (<img src={attached} height="50" width="50" />):''}
+        {delivery_status=='shipping' ? (
+          <Tooltip title="received">
             <IconButton onClick={updateProject}>
               <MenuBookIcon />
             </IconButton>
@@ -61,32 +71,22 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
       </div>
       <div className={classes.top}>
         <span className={classes.title} onClick={goToProject}>
-          Title: {title || 'No Name'}
+          {title || 'No Name'}
         </span>
       </div>
       <div className={classes.top}>
         <span className={classes.isbn} onClick={goToProject}>
-          ISBN: {isbn || 'No ISBN'}
+          {isbn || 'No ISBN'}
         </span>
       </div>
       <div className={classes.top}>
         <span className={classes.status} onClick={goToProject}>
-          Status: {status || 'No Status'}
+          {status || 'No Status'}
         </span>
       </div>
       <div className={classes.top}>
         <span className={classes.price} onClick={goToProject}>
-          Price: {price || 'No Price'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.createdBy} onClick={goToProject}>
-          Seller: {createdBy || 'No Seller'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.delivery_status} onClick={goToProject}>
-          {delivery_status ? `Delivery status:${delivery_status}` : ''}
+          {price || 'No Price'}
         </span>
       </div>
     </Paper>

@@ -97,6 +97,9 @@ function ProjectsList() {
                 createdBy={project && project.value.createdBy}
                 price={project && project.value.price}
                 projectId={project.key}
+                attached={project.value.attached}
+                delivery_status={project.value.delivery_status}
+                
               />
             )
           })}
