@@ -11,7 +11,7 @@ import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
-import NewProjectDialog from '../NewProjectDialog'
+import BuyBookDialog from '../BuyBookDialog'
 import styles from './ProjectsList.styles'
 
 const useStyles = makeStyles(styles)
@@ -33,25 +33,29 @@ function useProjectsList() {
         `startAt=${params.get('title')}`,
         'limitToLast=10'
       ]
+    }, {
+      path: 'users'
     }
   ])
 
   // Get projects from redux state
   const projects = useSelector(state => state.firebase.ordered.books)
+  const users = useSelector(state => state.firebase.ordered.users)
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
+  const [book, changeBook] = useState('book')
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
-  function addProject(newInstance) {
+  function buyBook(newInstance) {
     if (!auth.uid) {
       return showError('You must be logged in to create a project')
     }
+    console.log(newInstance)
     return firebase
-      .push('projects', {
+      .update('books/'+book.key, {
         ...newInstance,
-        createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+        delivery_status: 'sold'
       })
       .then(() => {
         toggleDialog()
@@ -64,21 +68,24 @@ function useProjectsList() {
       })
   }
 
-  return { projects, addProject, newDialogOpen, toggleDialog, params }
+  return { projects, buyBook, newDialogOpen, toggleDialog, params, changeBook, book, users }
 }
 
 function ProjectsList() {
   const classes = useStyles()
   const {
     projects,
-    addProject,
+    buyBook,
     newDialogOpen,
     toggleDialog,
-    params
+    params,
+    changeBook,
+    book,
+    users
   } = useProjectsList()
 
   // Show spinner while projects are loading
-  if (!isLoaded(projects)) {
+  if (!isLoaded(projects) || !isLoaded(users)) {
     return <LoadingSpinner />
   }
 
@@ -88,11 +95,14 @@ function ProjectsList() {
         <input name="title" type="text" placeholder={params.get('title')||"Search"} />
         <button>Search</button>
       </form>
-      <NewProjectDialog
-        onSubmit={addProject}
+      <BuyBookDialog
+        onSubmit={buyBook}
         open={newDialogOpen}
         onRequestClose={toggleDialog}
+        book={book}
+        users={users}
       />
+      <h2>Search result</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
           projects.map((project, ind) => {
@@ -103,8 +113,14 @@ function ProjectsList() {
                 title={project && project.value.title}
                 isbn={project && project.value.isbn}
                 status={project && project.value.status}
+                createdBy={project && project.value.createdBy}
                 price={project && project.value.price}
                 projectId={project.key}
+                attached={project && project.value.attached}
+                toggleDialog={toggleDialog}
+                changeBook={changeBook}
+                project={project}
+
               />
             )
           })}

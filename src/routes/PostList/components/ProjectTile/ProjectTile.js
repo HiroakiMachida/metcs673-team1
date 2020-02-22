@@ -11,10 +11,12 @@ import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
 import { BUYBOOK_PATH } from 'constants/paths'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, price, projectId, showDelete }) {
+function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, attached, toggleDialog, changeBook, project }) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -35,24 +37,28 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete }
         return Promise.reject(err)
       })
   }
+  function buyBook(){
+    changeBook(project)
+    toggleDialog()
+  }
+
+
 
   return (
     <Paper className={classes.root}>
       <div className={classes.top}>
-        <span className={classes.name} onClick={goToProject}>
-          {name || 'No Name'}
-        </span>
+        {attached ? (<img src={attached} height="50" width="50" />):''}
         {showDelete ? (
-          <Tooltip title="delete">
-            <IconButton onClick={deleteProject}>
-              <DeleteIcon />
+          <Tooltip title="buy">
+            <IconButton onClick={ buyBook }>
+              <ShoppingCartIcon />
             </IconButton>
           </Tooltip>
         ) : null}
       </div>
       <div className={classes.top}>
         <span className={classes.title} onClick={goToProject}>
-          {title || 'No Name'}
+          {title || 'No Title'}
         </span>
       </div>
       <div className={classes.top}>

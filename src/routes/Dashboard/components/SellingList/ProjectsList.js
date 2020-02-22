@@ -50,7 +50,7 @@ function useProjectsList() {
       return showError('You must be logged in to create a project')
     }
     return firebase
-      .push('projects', {
+      .push('books', {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.database.ServerValue.TIMESTAMP
@@ -106,6 +106,7 @@ function ProjectsList() {
                 buyer_id={project && project.value.buyer_id}
                 price={project && project.value.price}
                 projectId={project.key}
+                attached={project && project.value.attached}
               />
             )
           })}
