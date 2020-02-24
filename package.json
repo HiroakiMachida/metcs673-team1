@@ -62,6 +62,7 @@
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cypress": "^4.0.2",
+    "cypress-file-upload": "^3.5.3",
     "cypress-firebase": "^0.5.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.7.0",

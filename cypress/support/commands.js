@@ -3,6 +3,8 @@ import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/firestore';
 import { attachCustomCommands } from 'cypress-firebase';
+import 'cypress-file-upload';
+
 
 const fbConfig = {
   apiKey: "AIzaSyDQ4kXM-H_M4y5LabXQRGnEGOSEjHaB0DQ",
