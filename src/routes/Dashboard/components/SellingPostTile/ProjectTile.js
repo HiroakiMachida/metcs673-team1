@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useFirebase } from 'react-redux-firebase'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
 import Tooltip from '@material-ui/core/Tooltip'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import { makeStyles } from '@material-ui/core/styles'
@@ -33,6 +34,16 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
         return Promise.reject(err)
       })
   }
+  function deleteBook() {
+    return firebase
+      .remove(`books/${projectId}`)
+      .then(() => showSuccess('Book deleted successfully'))
+      .catch(err => {
+        console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not delete book')
+        return Promise.reject(err)
+      })
+  }
 
   return (
     <Paper className={classes.root}
@@ -55,6 +66,13 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
       </div>
       <div className={classes.top}>
         {attached ? (<img src={attached} height="50" width="50" />):''}
+        {!delivery_status ? (
+          <Tooltip title="delete">
+            <IconButton onClick={deleteBook}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : null}
         {delivery_status=="sold" ? (
           <Tooltip title="shipped">
             <IconButton onClick={updateProject}>
