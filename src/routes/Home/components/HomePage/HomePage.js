@@ -29,10 +29,10 @@ function Home() {
           User B receives textbook!<br/>
         </div>
         <div className={classes.section}>
-          <h4>User manual</h4>
-          User manual available on the link below! <br/>
+          <h4>How to use</h4>
+          
           <a href="https://github.com/HiroakiMachida/metcs673-team1/tree/master/docs">
-                  https://github.com/HiroakiMachida/metcs673-team1/tree/master/docs
+          User manual
           </a>
         </div>
         <div className={classes.section}>
