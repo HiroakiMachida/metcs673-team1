@@ -3,14 +3,10 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ACCOUNT_PATH,
-  LIST_PATH,
   LOGIN_PATH,
   SIGNUP_PATH
 } from 'constants/paths'
 import styles from './HomePage.styles'
-
-const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
-const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
 const useStyles = makeStyles(styles)
 
@@ -20,84 +16,61 @@ function Home() {
   return (
     <div className={classes.root}>
       <div className="flex-row-center">
-        <h2>Home Route</h2>
+        <h2>For users</h2>
       </div>
       <div className="flex-row-center">
         <div className={classes.section}>
-          <h3>Routing</h3>
-          <span>
-            Redirecting and route protection done using:
-            <div>
-              <span>
-                <a
-                  href={reactRouterUrl}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  react-router
-                </a>
-              </span>
-              <span> and </span>
-              <a
-                href={authWrapperUrl}
-                target="_blank"
-                rel="noopener noreferrer">
-                redux-auth-wrapper
-              </a>
-            </div>
-          </span>
+          <h3>Concept</h3>
+          Users can buy & sell used textbooks<br/>
+          <img src={ require('static/concept.png') } alt="concept"/><br/>
+          User A posts textbook for selling<br/>
+          User B buys textbook<br/>
+          User A ships textbook<br/>
+          User B receives textbook!<br/>
         </div>
         <div className={classes.section}>
-          <h4>Logged Out</h4>
-          <span>
-            User is redirected to <pre>/login</pre> if not authenticated and
-            trying to vist:
-          </span>
-          <ul>
-            <li>
-              <Link to={LIST_PATH}>Projects</Link>
-            </li>
-            <li>
-              <Link to={ACCOUNT_PATH}>Account</Link>
-            </li>
-          </ul>
+          <h4>User manual</h4>
+          User manual available on the link below! <br/>
+          <a href="https://github.com/HiroakiMachida/metcs673-team1/tree/master/docs">
+                  https://github.com/HiroakiMachida/metcs673-team1/tree/master/docs
+          </a>
         </div>
         <div className={classes.section}>
-          <h4>Logged In</h4>
-          <span>
-            User is redirected to <pre>/projects</pre> if authenticated and
-            trying to vist:
-          </span>
-          <ul>
-            <li>
-              <Link to={LOGIN_PATH}>Login</Link>
-            </li>
-            <li>
-              <Link to={SIGNUP_PATH}>Signup</Link>
-            </li>
-          </ul>
-        </div>
-        <div className={classes.section}>
-          <div>
-            <h4>Forms</h4>
-            <span>Redirecting and route protection done using:</span>
-            <div>
-              <span>
-                <a
-                  href={reactRouterUrl}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  Formik
-                </a>
-              </span>
-            </div>
-          </div>
-          <span>The following routes use Formik:</span>
-          <Link to={LIST_PATH}>
-            <p>Projects</p>
-          </Link>
+          <h4>Start here</h4>
+          <Link to={SIGNUP_PATH}>Signup</Link>
+          <Link to={LOGIN_PATH}>Login</Link>
           <Link to={ACCOUNT_PATH}>
-            <p>Account Page</p>
+            Account Page
           </Link>
+        </div>
+      </div>
+      <div className="flex-row-center">
+        <h2>For developers</h2>
+      </div>
+      <div className="flex-row-center">
+        <div className={classes.section}>
+          <h4>GitHub</h4>
+          <a href="https://github.com/HiroakiMachida/metcs673-team1">
+          metcs673-team1
+          </a>
+        </div>
+      </div>
+      <div className="flex-row-center">
+        <div className={classes.section}>
+          <h4>Cypress</h4>
+          <a href="http://team1.work/cypress/log">
+          Test log
+          </a>
+          <a href="http://team1.work/cypress/screenshots/">
+          Screenshots
+          </a>
+          <a href="http://team1.work/cypress/videos/">
+          Videos
+          </a><br/>
+          <span>from&nbsp;
+          <a href="http://team1.work/cypress/">
+          Cypress folder
+          </a></span>
         </div>
       </div>
     </div>
