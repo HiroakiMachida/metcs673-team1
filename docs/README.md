@@ -16,7 +16,7 @@ Users can buy & sell used textbooks
 ## Basic user story
 I post textbook for selling and you buy it!
 
-###1. User A posts textbook for selling
+### 1. User A posts textbook for selling
 [User A] Go to [http://team1.work/signup](http://team1.work/signup), fill out the from, and click the "SINGUP" button
 
 <img src="./images/2-1.png" width="30%" height="30%" />
@@ -31,7 +31,7 @@ I post textbook for selling and you buy it!
 
 <img src="./images/2-4.png" width="30%" height="30%" />
 
-###2. User B buys textbook
+### 2. User B buys textbook
 [User B] Log in by another user, click the "search" button
 
 <img src="./images/2-5.png" width="30%" height="30%" />
@@ -48,7 +48,7 @@ I post textbook for selling and you buy it!
 
 [User B] Pay money at payal.me previously shown 
 
-###3. User A ships textbook
+### 3. User A ships textbook
 
 [User A] Ship the textbook
 
@@ -60,7 +60,7 @@ I post textbook for selling and you buy it!
 
 <img src="./images/2-10.png" width="30%" height="30%" />
 
-###4. User B receives textbook!
+### 4. User B receives textbook!
 
 [User B] Receive the textbook
 
