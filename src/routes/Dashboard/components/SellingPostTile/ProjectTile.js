@@ -47,25 +47,25 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
 
   return (
     <Paper className={classes.root}
-      style={delivery_status=='received'?{background:"grey"}:{}}
+      style={delivery_status==='received'?{background:"grey"}:{}}
     >
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject} >
-          {delivery_status=='received' ? 'Received by buyer.' : ''}
+          {delivery_status==='received' ? 'Received by buyer.' : ''}
         </span>
       </div>
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
-          {delivery_status=='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
-          {delivery_status=='sold' ? <br/>: ''}
-          {delivery_status=='sold' ? recepient: ''}
-          {delivery_status=='sold' ? <br/>: ''}
-          {delivery_status=='sold' ? address: ''}
-          {delivery_status=='shipping' ? 'Shipping now' : ''}
+          {delivery_status==='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
+          {delivery_status==='sold' ? <br/>: ''}
+          {delivery_status==='sold' ? recepient: ''}
+          {delivery_status==='sold' ? <br/>: ''}
+          {delivery_status==='sold' ? address: ''}
+          {delivery_status==='shipping' ? 'Shipping now' : ''}
         </span>
       </div>
       <div className={classes.top}>
-        {attached ? (<img src={attached} height="50" width="50" />):''}
+        {attached ? (<img src={attached} height="50" width="50" alt="cover"/>):''}
         {!delivery_status ? (
           <Tooltip title="delete">
             <IconButton onClick={deleteBook}>
@@ -73,7 +73,7 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
             </IconButton>
           </Tooltip>
         ) : null}
-        {delivery_status=="sold" ? (
+        {delivery_status==="sold" ? (
           <Tooltip title="shipped">
             <IconButton onClick={updateProject}>
               <LocalShippingIcon />

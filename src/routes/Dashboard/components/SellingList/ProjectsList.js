@@ -13,7 +13,6 @@ import SellingPostTile from '../SellingPostTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
-import { createSelector } from 'reselect'
 
 
 
@@ -129,7 +128,7 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.createdBy == auth.uid).map((project, ind) => {
+          projects.filter(p => p && p.value.createdBy === auth.uid).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}

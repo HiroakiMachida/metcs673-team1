@@ -23,16 +23,16 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
     return history.push(`${LIST_PATH}/${projectId}`)
   }
 
-  function deleteProject() {
-    return firebase
-      .remove(`projects/${projectId}`)
-      .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not delete project')
-        return Promise.reject(err)
-      })
-  }
+  // function deleteProject() {
+  //   return firebase
+  //     .remove(`projects/${projectId}`)
+  //     .then(() => showSuccess('Project deleted successfully'))
+  //     .catch(err => {
+  //       console.error('Error:', err) // eslint-disable-line no-console
+  //       showError(err.message || 'Could not delete project')
+  //       return Promise.reject(err)
+  //     })
+  // }
 
   function updateProject() {
     return firebase
@@ -47,21 +47,21 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
 
   return (
     <Paper className={classes.root}
-      style={delivery_status=='received'?{background:"grey"}:{}}
+      style={delivery_status==='received'?{background:"grey"}:{}}
     >
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject}>
-          {delivery_status=="received" ? 'Received already.' : ''}
+          {delivery_status==="received" ? 'Received already.' : ''}
         </span>
       </div>
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
-        {delivery_status=="shipping" ? 'Shipping now! Click "received" when received.' : ''}
+        {delivery_status==="shipping" ? 'Shipping now! Click "received" when received.' : ''}
         </span>
       </div>
       <div className={classes.top}>
-        {attached ? (<img src={attached} height="50" width="50" />):''}
-        {delivery_status=='shipping' ? (
+        {attached ? (<img src={attached} height="50" width="50" alt="cover" />):''}
+        {delivery_status==='shipping' ? (
           <Tooltip title="received">
             <IconButton onClick={updateProject}>
               <MenuBookIcon />

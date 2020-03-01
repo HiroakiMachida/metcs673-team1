@@ -6,7 +6,7 @@ import { version } from '../package.json'
 import { env } from './config'
 import App from './containers/App'
 import './index.css'
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 

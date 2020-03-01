@@ -10,7 +10,6 @@ import {
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../ProjectTile'
-import NewProjectTile from '../NewProjectTile'
 import BuyBookDialog from '../BuyBookDialog'
 import styles from './ProjectsList.styles'
 

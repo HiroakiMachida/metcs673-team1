@@ -33,7 +33,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
       <Formik initialValues={{  }} onSubmit={handleSubmit}>
         {({ errors, isSubmitting }) => (
           <Form className={classes.root}>
-            {book.value.attached ? (<img src={book.value.attached} height="50" width="50" />):''}
+            {book.value.attached ? (<img src={book.value.attached} height="50" width="50" alt="cover"/>):''}
             <DialogContent>
               <Field
                 name="title"
@@ -83,7 +83,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
               />
               Pay here: 
               <Link href="#" onClick={preventDefault}>
-                {users.find(e=>e.key==book.value.createdBy).value['paypal']}
+                {users.find(e=>e.key===book.value.createdBy).value['paypal']}
               </Link>
 
             </DialogContent>
