@@ -19,15 +19,15 @@ I post textbook for selling and you buy it!
 ###1. User A posts textbook for selling
 [User A] Go to [http://team1.work/signup](http://team1.work/signup), fill out the from, and click the "SINGUP" button
 
-![2-1](./images/2-1.png){:height="30%" width="30%"}
+![2-1](./images/2-1.png | width="30%"){:height="30%" width="30%"}
 
 [User A] Click the  "+" button
 
-![2-2](./images/2-2.png){:height="30%" width="30%"}
+![2-2](./images/2-2.png | width=30%){:height="30%" width="30%"}
 
 [User A] Fill out the form, upload a file, and click the "create" button
 
-![2-3](./images/2-3.png){:height="30%" width="30%"}
+![2-3](./images/2-3.png | width=200){:height="30%" width="30%"}
 
 ![2-4](./images/2-4.png){:height="30%" width="30%"}
 
