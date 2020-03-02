@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 import { useFirebase } from 'react-redux-firebase'
@@ -6,10 +6,13 @@ import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
+import RateReviewIcon from '@material-ui/icons/RateReview';
 import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
+import { useSelector } from 'react-redux'
+import NewReviewDialog from '../NewReviewDialog'
 
 const useStyles = makeStyles(styles)
 
@@ -19,6 +22,22 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
   const firebase = useFirebase()
   const { showError, showSuccess } = useNotifications()
 
+  // New dialog
+  const [newDialogOpen, changeDialogState] = useState(false)
+  const toggleDialog = () => changeDialogState(!newDialogOpen)
+  
+  function submitReviewForBook(params) {
+    
+    return firebase
+      .update(`books/${params.bookId}`, { delivery_status: 'review_submitted', reviewText: params.reviewText})
+      .then(() => showSuccess('Book review submitted successfully'))
+      .catch(err => {
+        console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not submit book review')
+        return Promise.reject(err)
+      })
+  }
+  
   function goToProject() {
     return history.push(`${LIST_PATH}/${projectId}`)
   }
@@ -45,14 +64,38 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
       })
   }
 
+  function showBookReviewDialog(){
+    toggleDialog()
+  }
+
   return (
     <Paper className={classes.root}
       style={delivery_status==='received'?{background:"grey"}:{}}
     >
+      <NewReviewDialog
+        onSubmit={submitReviewForBook}
+        bookId={projectId}
+        open={newDialogOpen}
+        onRequestClose={toggleDialog}
+        title={title}
+        isbn={isbn}
+        status={status}
+      />
+
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject}>
           {delivery_status==="received" ? 'Received already.' : ''}
         </span>
+      </div>
+      <div className={classes.top}>
+        
+        {delivery_status==='received' ? (
+          <Tooltip title="Submit Review">
+            <IconButton onClick={showBookReviewDialog}>
+              <RateReviewIcon />
+            </IconButton>
+          </Tooltip>
+        ) : null}
       </div>
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
