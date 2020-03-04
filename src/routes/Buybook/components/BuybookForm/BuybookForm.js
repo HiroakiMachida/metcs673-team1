@@ -13,6 +13,7 @@ import {
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
+import useNotifications from 'modules/notification/useNotifications'
 
 const useStyles = makeStyles(styles)
 
@@ -44,12 +45,8 @@ function useProjectsList() {
 
 function BuybookForm({ onSubmit }) {
   const classes = useStyles()
-
-  function handleSubmit(values, { setSubmitting }) {
-    onSubmit(values).then(() => {
-      setSubmitting(false)
-    })
-  }
+  const firebase = useFirebase()
+  const { showError, showSuccess } = useNotifications()
 
   const {
     projects,
@@ -57,14 +54,16 @@ function BuybookForm({ onSubmit }) {
   } = useProjectsList()
 
   let pid = new URLSearchParams(window.location.search);
+  const projectId = pid.get('projectid')
+  const uid = pid.get('uid')
   const isbn = pid.get('isbn')
   const name = pid.get('name')
   const title = pid.get('title')
   const status = pid.get('status')
   const price = pid.get('price')
   function infomation(){
-  return (
-    <div className={classes.tiles}>
+    return (
+      <div className={classes.tiles}>
         {!isEmpty(projects) &&
           projects.filter(p => p && p.value.isbn == isbn).map((project, ind) => {
             return (
@@ -77,10 +76,31 @@ function BuybookForm({ onSubmit }) {
                 price={project && project.value.price}
                 projectId={project.key}
               />
-            )
-          })}
+              )
+            }
+          )
+        }
       </div>
   )}
+
+
+  function handleSubmit(values, { setSubmitting }) {
+    updateProject()
+    onSubmit(values).then(() => {
+      setSubmitting(false)
+    })
+  }
+
+  function updateProject() {
+    return firebase
+      .update(`books/${projectId}`, { status: 'sell', buyingBy: uid })
+      .then(() => showSuccess('Book received successfully'))
+      .catch(err => {
+        console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not update book')
+        return Promise.reject(err)
+      })
+  }
 
   return (
     <Formik initialValues={{ postID: '',
@@ -110,6 +130,7 @@ function BuybookForm({ onSubmit }) {
             component={TextField}
             margin="normal"
             fullWidth
+            disabled={true}
           />
           <Field
             initialValues="Init"
@@ -119,6 +140,7 @@ function BuybookForm({ onSubmit }) {
             component={TextField}
             margin="normal"
             fullWidth
+            disabled={true}
           />
           <Field
             label="Price"
@@ -127,6 +149,7 @@ function BuybookForm({ onSubmit }) {
             component={TextField}
             margin="normal"
             fullWidth
+            disabled={true}
           />
           <Field
             label="Name"
@@ -135,6 +158,7 @@ function BuybookForm({ onSubmit }) {
             component={TextField}
             margin="normal"
             fullWidth
+            disabled={true}
           />
           <Field
             label="Address"

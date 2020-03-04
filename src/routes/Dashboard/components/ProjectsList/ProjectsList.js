@@ -13,6 +13,7 @@ import {
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './ProjectsList.styles'
+import WantingList from '../WantingList'
 import SellingList from '../SellingList'
 import BuyingList from '../BuyingList'
 import SearchBar from 'material-ui-search-bar'
@@ -93,6 +94,7 @@ function ProjectsList() {
         <input name="title" type="text" placeholder="Search" />
         <button>Search</button>        
       </form>
+      <WantingList/>
       <SellingList/>
       <BuyingList />
     </div>

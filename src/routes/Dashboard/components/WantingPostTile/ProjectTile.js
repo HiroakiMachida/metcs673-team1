@@ -5,7 +5,6 @@ import { useFirebase } from 'react-redux-firebase'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
-import MenuBookIcon from '@material-ui/icons/MenuBook'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
@@ -24,24 +23,13 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
     return history.push(`${LIST_PATH}/${projectId}`)
   }
 
-  function deleteProject() {
-    return firebase
-      .remove(`projects/${projectId}`)
-      .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not delete project')
-        return Promise.reject(err)
-      })
-  }
-
   function updateProject() {
     return firebase
-      .update(`books/${projectId}`, { delivery_status: 'received' })
-      .then(() => showSuccess('Book received successfully'))
+      .update(`books/${projectId}`, { delivery_status: 'shipping' })
+      .then(() => showSuccess('Post updated successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not update book')
+        showError(err.message || 'Could not update post')
         return Promise.reject(err)
       })
   }
@@ -57,7 +45,7 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
       </div>
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
-          {delivery_status=='sold' ? 'Check it if you recieve the book': ''}
+          {delivery_status=='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
           {delivery_status=='sold' ? <br/>: ''}
           {delivery_status=='sold' ? recepient: ''}
           {delivery_status=='sold' ? <br/>: ''}
