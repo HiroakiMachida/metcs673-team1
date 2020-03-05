@@ -12,6 +12,10 @@ import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../ProjectTile'
 import BuyBookDialog from '../BuyBookDialog'
 import styles from './ProjectsList.styles'
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles(styles)
 
@@ -34,12 +38,17 @@ function useProjectsList() {
       ]
     }, {
       path: 'users'
-    }
+    },
+    {
+      path: 'books',
+      storeAs: 'autocomplete'
+    }, 
   ])
 
   // Get projects from redux state
   const projects = useSelector(state => state.firebase.ordered.books)
   const users = useSelector(state => state.firebase.ordered.users)
+  const autocomplete = useSelector(state => state.firebase.ordered.autocomplete)
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
@@ -69,7 +78,7 @@ function useProjectsList() {
       })
   }
 
-  return { projects, buyBook, newDialogOpen, toggleDialog, params, changeBook, book, users }
+  return { projects, buyBook, newDialogOpen, toggleDialog, params, changeBook, book, users, autocomplete }
 }
 
 function ProjectsList() {
@@ -82,7 +91,8 @@ function ProjectsList() {
     params,
     changeBook,
     book,
-    users
+    users,
+    autocomplete
   } = useProjectsList()
 
   // Show spinner while projects are loading
@@ -90,12 +100,20 @@ function ProjectsList() {
     return <LoadingSpinner />
   }
 
+
   return (
     <div className={classes.root}>
-      <form action="/posts/">
-        <input name="title" type="text" placeholder={params.get('title')||"Search"} />
-        <button>Search</button>
-      </form>
+      <form action="/posts/" style={{ display: "inline-flex"}}>
+        <Autocomplete
+        id="search-input"
+        freeSolo
+        options={autocomplete.map(option => option.value.title)}
+        renderInput={options => (
+            <TextField {...options} name="title" label="search" margin="normal" variant="outlined" style={{ width: 300,background: "white" } } placeholder={params.get('title')||"Search"} />
+        )}
+      />
+        <Button variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
+      </form>        
       <BuyBookDialog
         onSubmit={buyBook}
         open={newDialogOpen}

@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
-import { useSelector } from 'react-redux'
 import NewReviewDialog from '../NewReviewDialog'
 
 const useStyles = makeStyles(styles)
