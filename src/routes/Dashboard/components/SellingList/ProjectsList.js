@@ -143,6 +143,7 @@ function ProjectsList() {
                 attached={project && project.value.attached}
                 recepient={project && project.value.recepient}
                 address={project && project.value.address}
+                reviewText = {project && project.value.reviewText}
               />
             )
           })}
