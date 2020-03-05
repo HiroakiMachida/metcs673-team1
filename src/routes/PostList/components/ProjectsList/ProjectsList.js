@@ -113,7 +113,11 @@ function ProjectsList() {
         )}
       />
         <Button variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
-      </form>        
+      </form> 
+      <form action="/posts/">
+        <input name="title" type="text" placeholder={params.get('title')||"Search"} />
+        <button>Search</button>
+      </form>       
       <BuyBookDialog
         onSubmit={buyBook}
         open={newDialogOpen}
