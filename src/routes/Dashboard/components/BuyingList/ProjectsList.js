@@ -68,6 +68,7 @@ function ProjectsList() {
                 projectId={project.key}
                 attached={project.value.attached}
                 delivery_status={project.value.delivery_status}
+                reviewText={project.value.reviewText}
                 
               />
             )

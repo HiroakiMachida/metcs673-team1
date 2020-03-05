@@ -11,12 +11,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
-import { useSelector } from 'react-redux'
 import NewReviewDialog from '../NewReviewDialog'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached }) {
+function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached, reviewText}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -131,6 +130,14 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
         <span className={classes.price} onClick={goToProject}>
           {price || 'No Price'}
         </span>
+        {delivery_status==="review_submitted" ? (
+          <div className={classes.top}>
+          <span className={classes.price} onClick={goToProject}>
+            <br/>{reviewText || 'No Review Submitted'}<br/>
+            
+          </span>
+        </div>
+        ) : null}
       </div>
     </Paper>
   )
