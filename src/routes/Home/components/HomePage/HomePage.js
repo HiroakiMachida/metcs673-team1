@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-  ACCOUNT_PATH,
+  DASHBOARD_PATH,
   LOGIN_PATH,
   SIGNUP_PATH
 } from 'constants/paths'
@@ -39,9 +39,7 @@ function Home() {
           <h4>Start here</h4>
           <Link to={SIGNUP_PATH}>Signup</Link>
           <Link to={LOGIN_PATH}>Login</Link>
-          <Link to={ACCOUNT_PATH}>
-            Account Page
-          </Link>
+          <Link to={DASHBOARD_PATH}>Dashboard</Link>
         </div>
       </div>
       <div className="flex-row-center">
