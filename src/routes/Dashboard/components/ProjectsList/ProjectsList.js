@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import styles from './ProjectsList.styles'
 import SellingList from '../SellingList'
 import BuyingList from '../BuyingList'
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
