@@ -112,7 +112,7 @@ function ProjectsList() {
             <TextField {...options} name="title" label="search" margin="normal" variant="outlined" style={{ width: 300,background: "white" } } placeholder={params.get('title')||"Search"} />
         )}
       />
-        <Button variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
+        <Button type="submit" variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
       </form> 
       <form action="/posts/">
         <input name="title" type="text" placeholder={params.get('title')||"Search"} />
