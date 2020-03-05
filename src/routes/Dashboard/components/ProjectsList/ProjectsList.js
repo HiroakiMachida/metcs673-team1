@@ -3,7 +3,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import styles from './ProjectsList.styles'
 import SellingList from '../SellingList'
 import BuyingList from '../BuyingList'
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(styles)
 
@@ -12,10 +14,10 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
-      <form action="/posts/">
-        <input name="title" type="text" placeholder="Search" />
-        <button>Search</button>        
-      </form>
+      <form action="/posts/" style={{ display: "inline-flex"}}>
+            <TextField name="title" label="search" margin="normal" variant="outlined" style={{ width: 300,background: "white" } } />
+        <Button type="submit" variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
+      </form>   
       <SellingList/>
       <BuyingList />
     </div>
