@@ -15,7 +15,8 @@ import SellingPostTile from '../SellingPostTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
-import { POST_LIST_PATH } from 'constants/paths'
+import { WANTING_POST_PATH } from 'constants/paths'
+
 
 
 const useStyles = makeStyles(styles)
@@ -69,7 +70,8 @@ function useProjectsList() {
         .push('books', {
           ...newInstance,
           createdBy: auth.uid,
-          createdAt: firebase.database.ServerValue.TIMESTAMP
+          createdAt: firebase.database.ServerValue.TIMESTAMP,
+          wanting: true
         })
         .then(() => {
           toggleDialog()
@@ -88,7 +90,8 @@ function useProjectsList() {
           ...newInstance,
           createdBy: auth.uid,
           createdAt: firebase.database.ServerValue.TIMESTAMP,
-          attached: img
+          attached: img,
+
         })
         .then(() => {
           toggleDialog()
@@ -123,9 +126,9 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
-      <h2>Selling
-        <Button onClick={() => history.push(`${POST_LIST_PATH}`) }>
-          Go To Book Selling Page
+      <h2>Want
+        <Button onClick={() => history.push(`${WANTING_POST_PATH}`) }>
+          Go To Wanting Page
         </Button></h2>
       <NewProjectDialog
         onSubmit={addProject}
@@ -134,7 +137,7 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting != true).map((project, ind) => {
+          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting == true).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}

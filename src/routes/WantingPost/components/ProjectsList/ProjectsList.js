@@ -64,7 +64,8 @@ function useProjectsList() {
       .update('books/'+book.key, {
         ...newInstance,
         buyer_id: auth.uid,
-        delivery_status: 'sold'
+        delivery_status: 'sold',
+        wanting: 'false'
       })
       .then(() => {
         toggleDialog()
@@ -124,7 +125,7 @@ function ProjectsList() {
       <h2>Search result</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(e=>!e.value.delivery_status && e.value.wanting != true).map((project, ind) => {
+          projects.filter(e=> e.value.wanting == true).map((project, ind) => {
             return (
               <ProjectTile
                 key={`Project-${project.key}-${ind}`}

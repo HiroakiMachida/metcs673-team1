@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './ProjectsList.styles'
+import WantingList from '../WantingList'
 import SellingList from '../SellingList'
 import BuyingList from '../BuyingList'
 import TextField from '@material-ui/core/TextField';
@@ -17,6 +18,7 @@ function ProjectsList() {
             <TextField name="title" label="search" margin="normal" variant="outlined" style={{ width: 300,background: "white" } } />
         <Button type="submit" variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
       </form>   
+      <WantingList/>
       <SellingList/>
       <BuyingList />
     </div>
