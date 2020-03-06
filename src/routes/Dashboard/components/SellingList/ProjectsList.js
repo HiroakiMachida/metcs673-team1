@@ -18,7 +18,6 @@ import styles from './ProjectsList.styles'
 import { POST_LIST_PATH } from 'constants/paths'
 
 
-
 const useStyles = makeStyles(styles)
 
 function useProjectsList() {

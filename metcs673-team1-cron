@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# You may put this into /etc/cron.daily/
+cd /home/ubuntu/metcs673-team1
+killall Xvfb
+killall node
+
+git pull --ff-only --all -p
+nohup Xvfb :1 -screen 0 800x600x24 &
+nohup npm start &
+npm test > /home/ubuntu/metcs673-team1/cypress/log

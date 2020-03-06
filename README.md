@@ -39,7 +39,7 @@
 ### Run test
 1. Get cypress.env.json from Slack and save it on the root directory
 1. Get serviceAccount.json from Slack and save it on the root directory
-1. node_modules/.bin/cypress open
+1. npm run test:open
 1. Click any of .spec.js files
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
