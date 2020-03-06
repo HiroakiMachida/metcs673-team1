@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import {
   useFirebase,
   useFirebaseConnect,
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
+import Button from '@material-ui/core/Button'
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import SellingPostTile from '../SellingPostTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
-import { createSelector } from 'reselect'
+import { POST_LIST_PATH } from 'constants/paths'
 
 
 
@@ -46,44 +48,58 @@ function useProjectsList() {
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
   function addProject(newInstance) {
-
-    const preview = document.querySelector('img');
     const file = document.getElementById("image").files[0]
+    console.log(file);
     const reader = new FileReader();
 
-    reader.addEventListener("load", function () {
-      // convert image file to base64 string
-      persist(reader.result)
-      //preview.src = reader.result;
-    }, false);
-  
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  
-
-
     if (!auth.uid) {
-      return showError('You must be logged in to create a project')
+      return showError('You must be logged in to create a post')
     }
-    var persist = function(arg1){
-    return firebase
-      .push('books', {
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
-        attached: arg1
 
-      })
-      .then(() => {
-        toggleDialog()
-        showSuccess('Status updated successfully')
-      })
-      .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not add project')
-        return Promise.reject(err)
-      })
+
+    if(file){
+      reader.addEventListener("load", function () {
+        // convert image file to base64 string
+        persist(reader.result);
+        //preview.src = reader.result;
+      }, false);
+      reader.readAsDataURL(file);
+    }else{
+      console.log("no file!");
+      return firebase
+        .push('books', {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: firebase.database.ServerValue.TIMESTAMP
+        })
+        .then(() => {
+          toggleDialog()
+          showSuccess('Post added successfully')
+        })
+        .catch(err => {
+          console.error('Error:', err) // eslint-disable-line no-console
+          showError(err.message || 'Could not add post')
+          return Promise.reject(err)
+        })
+    }
+  
+    var persist = function(img){
+      return firebase
+        .push('books', {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: firebase.database.ServerValue.TIMESTAMP,
+          attached: img
+        })
+        .then(() => {
+          toggleDialog()
+          showSuccess('Post updated successfully')
+        })
+        .catch(err => {
+          console.error('Error:', err) // eslint-disable-line no-console
+          showError(err.message || 'Could not add post')
+          return Promise.reject(err)
+        })
     }
   }
 
@@ -92,6 +108,7 @@ function useProjectsList() {
 
 function ProjectsList() {
   const classes = useStyles()
+  const history = useHistory()
   const {
     projects,
     addProject,
@@ -107,7 +124,10 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
-      <h2>Selling</h2>
+      <h2>Selling
+        <Button onClick={() => history.push(`${POST_LIST_PATH}`) }>
+          Go To Book Selling Page
+        </Button></h2>
       <NewProjectDialog
         onSubmit={addProject}
         open={newDialogOpen}
@@ -115,7 +135,7 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.createdBy == auth.uid).map((project, ind) => {
+          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting != true).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}
@@ -130,6 +150,7 @@ function ProjectsList() {
                 attached={project && project.value.attached}
                 recepient={project && project.value.recepient}
                 address={project && project.value.address}
+                reviewText = {project && project.value.reviewText}
               />
             )
           })}

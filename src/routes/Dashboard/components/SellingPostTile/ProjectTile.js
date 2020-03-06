@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useFirebase } from 'react-redux-firebase'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
 import Tooltip from '@material-ui/core/Tooltip'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import { makeStyles } from '@material-ui/core/styles'
@@ -13,7 +14,7 @@ import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address }) {
+function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address, reviewText}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -33,29 +34,48 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
         return Promise.reject(err)
       })
   }
+  function deleteBook() {
+    return firebase
+      .remove(`books/${projectId}`)
+      .then(() => showSuccess('Book deleted successfully'))
+      .catch(err => {
+        console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not delete book')
+        return Promise.reject(err)
+      })
+  }
 
   return (
     <Paper className={classes.root}
-      style={delivery_status=='received'?{background:"grey"}:{}}
+      style={delivery_status==='received'?{background:"grey"}:{}}
     >
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject} >
-          {delivery_status=='received' ? 'Received by buyer.' : ''}
+          {delivery_status==='received' ? 'Received by buyer.' : ''}
         </span>
       </div>
       <div className={classes.top}>
         <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
-          {delivery_status=='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
-          {delivery_status=='sold' ? <br/>: ''}
-          {delivery_status=='sold' ? recepient: ''}
-          {delivery_status=='sold' ? <br/>: ''}
-          {delivery_status=='sold' ? address: ''}
-          {delivery_status=='shipping' ? 'Shipping now' : ''}
+          {delivery_status==='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
+          {delivery_status==='sold' ? <br/>: ''}
+          {delivery_status==='sold' ? recepient: ''}
+          {delivery_status==='sold' ? <br/>: ''}
+          {delivery_status==='sold' ? address: ''}
+          {delivery_status==='shipping' ? 'Shipping now' : ''}
+          
+          {console.log( " DS : "  + delivery_status)}
         </span>
       </div>
       <div className={classes.top}>
-        {attached ? (<img src={attached} height="50" width="50" />):''}
-        {delivery_status=="sold" ? (
+        {attached ? (<img src={attached} height="50" width="50" alt="cover"/>):''}
+        {!delivery_status ? (
+          <Tooltip title="delete">
+            <IconButton onClick={deleteBook}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : null}
+        {delivery_status==="sold" ? (
           <Tooltip title="shipped">
             <IconButton onClick={updateProject}>
               <LocalShippingIcon />
@@ -83,6 +103,14 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
           {price || 'No Price'}
         </span>
       </div>
+      {delivery_status==="review_submitted" ? (
+          <div className={classes.top}>
+          <span className={classes.price} onClick={goToProject}>
+            {reviewText || 'No Review Submitted'}<br/>
+            
+          </span>
+        </div>
+        ) : null}
     </Paper>
   )
 }

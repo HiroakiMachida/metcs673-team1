@@ -5,8 +5,6 @@ import { TextField } from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Link from '@material-ui/core/Link';
-import { useFirebase } from 'react-redux-firebase'
-import useNotifications from 'modules/notification/useNotifications'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -21,10 +19,6 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
   const classes = useStyles()
   const preventDefault = event => event.preventDefault();
 
-  const firebase = useFirebase()
-  var user = firebase.auth().currentUser;
-  const uid = user.uid;
-  const { showError, showSuccess } = useNotifications()
 
   function handleSubmit(values, { setSubmitting }) {
     return onSubmit(values).then(() => {
@@ -32,25 +26,14 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
     })
   }
 
-  function updateProject() {
-    return firebase
-      .update(`books/${bookId}`, { status: 'sell', buyingBy: uid})
-      .then(() => showSuccess('Book received successfully'))
-      .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not update book')
-        return Promise.reject(err)
-      })
-  }
-
   return (
     <Dialog open={open} onClose={onRequestClose}>
-      <DialogTitle id="new-project-dialog-title">Buy</DialogTitle>
+      <DialogTitle id="new-project-dialog-title">Sell</DialogTitle>
       
       <Formik initialValues={{  }} onSubmit={handleSubmit}>
         {({ errors, isSubmitting }) => (
           <Form className={classes.root}>
-            {book.value.attached ? (<img src={book.value.attached} height="50" width="50" />):''}
+            {book.value.attached ? (<img src={book.value.attached} height="50" width="50" alt="cover"/>):''}
             <DialogContent>
               <Field
                 name="title"
@@ -84,23 +67,11 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
                 fullWidth
                 disabled={true}
               />
-              <Field
-                name="recepient"
-                component={TextField}
-                margin="normal"
-                placeholder="Your name"
-                fullWidth
-              />
-              <Field
-                name="address"
-                component={TextField}
-                margin="normal"
-                placeholder="Your shpping address"
-                fullWidth
-              />
+              
+              
               Pay here: 
               <Link href="#" onClick={preventDefault}>
-                {users.find(e=>e.key==book.value.createdBy).value['paypal']}
+                {users.find(e=>e.key===book.value.createdBy).value['paypal']}
               </Link>
 
             </DialogContent>
@@ -109,7 +80,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
                 Cancel
               </Button>
               <Button type="submit" color="primary" disabled={isSubmitting}>
-                {isSubmitting ? 'Buying...' : 'Buy'}
+                {isSubmitting ? 'Selling...' : 'Sell'}
               </Button>
             </DialogActions>
           </Form>

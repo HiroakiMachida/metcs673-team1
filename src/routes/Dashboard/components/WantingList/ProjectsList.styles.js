@@ -11,8 +11,5 @@ export default theme => ({
     justifyContent: 'center',
     flexWrap: 'wrap',
     '-webkit-flex-flow': 'row wrap'
-  },
-  goWanted: {
-    justifyContent: 'flex-end'
   }
 })

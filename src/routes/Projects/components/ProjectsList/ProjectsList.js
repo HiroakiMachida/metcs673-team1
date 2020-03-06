@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
 import {
   useFirebase,
-  useFirebaseConnect,
+  // useFirebaseConnect,
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'

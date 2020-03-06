@@ -1,4 +1,4 @@
-import React, { useState, setState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 import { Formik, Field, Form } from 'formik'
 import { TextField} from 'formik-material-ui'
@@ -19,22 +19,6 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
     return onSubmit(values).then(() => {
       setSubmitting(false)
     })
-  }
-
-  function previewFile() {
-    const preview = document.querySelector('img');
-    const file = document.getElementById("image").files[0]
-    const reader = new FileReader();
-  
-    reader.addEventListener("load", function () {
-      // convert image file to base64 string
-      preview.src = reader.result;
-    }, false);
-  
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-
   }
 
   return (
