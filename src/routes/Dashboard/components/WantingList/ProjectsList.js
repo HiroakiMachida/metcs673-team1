@@ -137,7 +137,7 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting == true).map((project, ind) => {
+          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting === true).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}

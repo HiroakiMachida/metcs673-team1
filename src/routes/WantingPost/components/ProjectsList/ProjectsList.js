@@ -125,7 +125,7 @@ function ProjectsList() {
       <h2>Search result</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(e=> e.value.wanting == true).map((project, ind) => {
+          projects.filter(e=> e.value.wanting === true).map((project, ind) => {
             return (
               <ProjectTile
                 key={`Project-${project.key}-${ind}`}
