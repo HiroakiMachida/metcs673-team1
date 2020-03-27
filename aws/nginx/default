@@ -1,0 +1,27 @@
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        
+        root /home/ubuntu/metcs673-team1/;
+        
+        index index.html index.htm index.nginx-debian.html;
+        
+        server_name _;
+        location ^~ /log {
+                try_files /log =808;
+        }
+        location / {
+                proxy_pass http://localhost:3000;
+        }
+        location ^~ /cypress/ {
+                
+                autoindex on;
+                allow all;
+        }
+        location ^~ /mrtg {
+                alias /var/www/mrtg;
+                allow 127.0.0.1;
+                location ~* .(png|jpg|jpeg|gif|ico)$ {
+                }
+        }
+}
