@@ -45,6 +45,33 @@ function useProjectsList() {
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
+  
+  function updateCategory(ref, title){
+    const url = 'http://52.7.150.192:8000/predict';
+    //const url = 'http://www.mocky.io/v2/5e7eb394300000da134afb7c';
+    const data = {
+      "document": title,
+      "question": "Name the category."
+    }
+    const othePram = {
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+      method: "POST"
+    }
+    return fetch(url,othePram)
+      .then(response => 
+        response.json().then(data => ({
+          data: data,
+          status: response.status
+      })
+      ).then(res => {
+        console.log(res.status, res.data)
+        ref.update({category: res.data.result.answer})
+      }))
+      .catch(error=>console.log(error))
+  }
 
   function addProject(newInstance) {
     const file = document.getElementById("image").files[0]
@@ -71,9 +98,12 @@ function useProjectsList() {
           createdBy: auth.uid,
           createdAt: firebase.database.ServerValue.TIMESTAMP
         })
-        .then(() => {
-          toggleDialog()
-          showSuccess('Post added successfully')
+        .then((ret) => {
+          console.log(ret);
+          console.log(typeof updateCategory);
+          updateCategory(ret, newInstance.title);
+          toggleDialog();
+          showSuccess('Post added successfully');
         })
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console
@@ -81,7 +111,9 @@ function useProjectsList() {
           return Promise.reject(err)
         })
     }
+
   
+
     var persist = function(img){
       return firebase
         .push('books', {
@@ -90,7 +122,10 @@ function useProjectsList() {
           createdAt: firebase.database.ServerValue.TIMESTAMP,
           attached: img
         })
-        .then(() => {
+        .then((ret) => {
+          console.log(ret);
+          console.log(typeof updateCategory);
+          updateCategory(ret, newInstance.title);
           toggleDialog()
           showSuccess('Post updated successfully')
         })
@@ -140,6 +175,7 @@ function ProjectsList() {
                 key={`Project-${project.key}-${ind}`}
                 name={project && project.value.title}
                 title={project && project.value.title}
+                category = {project && project.value.category}
                 isbn={project && project.value.isbn}
                 status={project && project.value.status}
                 delivery_status={project && project.value.delivery_status}

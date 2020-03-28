@@ -143,6 +143,7 @@ function ProjectsList() {
                 key={`Project-${project.key}-${ind}`}
                 name={project && project.value.title}
                 title={project && project.value.title}
+                category={project && project.value.category}
                 isbn={project && project.value.isbn}
                 status={project && project.value.status}
                 delivery_status={project && project.value.delivery_status}
