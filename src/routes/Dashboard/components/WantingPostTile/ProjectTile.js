@@ -14,7 +14,7 @@ import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, category, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address, reviewText}) {
+function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address, reviewText}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -86,11 +86,6 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
       <div className={classes.top}>
         <span className={classes.title} onClick={goToProject}>
           {title || 'No Title'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.category} onClick={goToProject}>
-          {category || 'No Category'}
         </span>
       </div>
       <div className={classes.top}>

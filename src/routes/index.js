@@ -5,6 +5,7 @@ import Home from './Home'
 import LoginRoute from './Login'
 import SignupRoute from './Signup'
 import ProjectsRoute from './Projects'
+import WantingPostRoute from './WantingPost'
 import PostListRoute from './PostList'
 import DashboardRoute from './Dashboard'
 import AccountRoute from './Account'
@@ -20,6 +21,7 @@ export default function createRoutes(store) {
           AccountRoute,
           ProjectsRoute,
           SignupRoute,
+          WantingPostRoute,
           PostListRoute,
           DashboardRoute,
           LoginRoute,

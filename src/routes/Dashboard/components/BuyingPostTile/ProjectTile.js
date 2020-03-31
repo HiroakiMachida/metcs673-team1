@@ -15,7 +15,7 @@ import NewReviewDialog from '../NewReviewDialog'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached, reviewText}) {
+function ProjectTile({ name, title, category, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached, reviewText}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -114,6 +114,11 @@ function ProjectTile({ name, title, isbn, status, delivery_status, createdBy, pr
       <div className={classes.top}>
         <span className={classes.title} onClick={goToProject}>
           {title || 'No Name'}
+        </span>
+      </div>
+      <div className={classes.top}>
+        <span className={classes.category} onClick={goToProject}>
+          {category || 'No Category'}
         </span>
       </div>
       <div className={classes.top}>
