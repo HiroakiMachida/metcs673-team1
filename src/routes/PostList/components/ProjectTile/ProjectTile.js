@@ -18,11 +18,13 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
 
   function goToProject() {
     //TODO
-    return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
+    //return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
   }
 
   function buyBook(){
+    console.log(3)
     changeBook(project)
+    console.log(4)
     toggleDialog()
   }
 

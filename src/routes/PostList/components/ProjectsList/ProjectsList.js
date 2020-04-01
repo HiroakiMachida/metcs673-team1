@@ -11,6 +11,7 @@ import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../ProjectTile'
 import BuyBookDialog from '../BuyBookDialog'
+import AdvanceSearchDialog from '../AdvanceSearchDialog'
 import styles from './ProjectsList.styles'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -55,7 +56,13 @@ function useProjectsList() {
   const [book, changeBook] = useState('book')
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
+  function advanceSearch(){
+    //buyBook()
+    toggleDialog()
+  }
+
   function buyBook(newInstance) {
+    console.log(1)
     if (!auth.uid) {
       return showError('You must be logged in to create a project')
     }
@@ -78,7 +85,7 @@ function useProjectsList() {
       })
   }
 
-  return { projects, buyBook, newDialogOpen, toggleDialog, params, changeBook, book, users, autocomplete }
+  return { projects, buyBook, newDialogOpen, toggleDialog, params, changeBook, book, users, autocomplete, advanceSearch }
 }
 
 function ProjectsList() {
@@ -92,7 +99,8 @@ function ProjectsList() {
     changeBook,
     book,
     users,
-    autocomplete
+    autocomplete,
+    advanceSearch
   } = useProjectsList()
 
   // Show spinner while projects are loading
@@ -113,7 +121,8 @@ function ProjectsList() {
         )}
       />
         <Button type="submit" variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
-      </form>       
+      </form>
+      <Button variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}} onClick={ advanceSearch }>Advance Search</Button>
       <BuyBookDialog
         onSubmit={buyBook}
         open={newDialogOpen}
