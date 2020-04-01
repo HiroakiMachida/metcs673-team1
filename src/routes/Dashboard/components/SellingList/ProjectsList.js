@@ -16,7 +16,10 @@ import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
 import { POST_LIST_PATH } from 'constants/paths'
+<<<<<<< HEAD
 
+=======
+>>>>>>> 807afe6a2a6b49bbcd3e63262f0eff729e8f7e16
 
 
 const useStyles = makeStyles(styles)

@@ -96,4 +96,8 @@ NewProjectDialog.propTypes = {
   onRequestClose: PropTypes.func.isRequired
 }
 
+<<<<<<< HEAD:src/routes/WantingPost/components/BuyBookDialog/NewProjectDialog.js
 export default NewProjectDialog
+=======
+export default NewProjectDialog
+>>>>>>> 807afe6a2a6b49bbcd3e63262f0eff729e8f7e16:src/routes/SellingPost/components/NewProjectDialog/NewProjectDialog.js
