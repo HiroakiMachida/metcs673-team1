@@ -71,6 +71,15 @@ function Home() {
           </a></span>
         </div>
       </div>
+
+      <div className="flex-row-center">
+        <div className={classes.section}>
+          <h4>MRTG</h4>
+          <a href="http://team1.work/mrtg">
+          Monitoring log
+          </a>
+        </div>
+      </div>
     </div>
   )
 }

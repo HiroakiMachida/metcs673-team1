@@ -137,12 +137,13 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting == true).map((project, ind) => {
+          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting === true).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}
                 name={project && project.value.title}
                 title={project && project.value.title}
+                category={project && project.value.category}
                 isbn={project && project.value.isbn}
                 status={project && project.value.status}
                 delivery_status={project && project.value.delivery_status}

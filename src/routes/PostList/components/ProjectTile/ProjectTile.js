@@ -6,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './ProjectTile.styles'
-import { BUYBOOK_PATH } from 'constants/paths'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 
