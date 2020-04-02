@@ -26,9 +26,20 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
   const toggleDialog = () => changeDialogState(!newDialogOpen)
   
   function submitReviewForBook(params) {
-    
-    return firebase
-      .update(`books/${params.bookId}`, { delivery_status: 'review_submitted', reviewText: params.reviewText})
+    var newNotificationsSellerKey = firebase.database().ref().child('notifications').push().key;
+    var updates = {};
+    updates['/books/'+projectId] = {
+      ...book.value,
+      delivery_status: 'review_submitted',
+      reviewText: params.reviewText
+    };
+    updates['/notifications/' + newNotificationsSellerKey] = {
+      userId: book.value.createdBy,
+      body: `"${book.value.title}" review submitted.`,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    return firebase.database().ref().update(updates)
       .then(() => showSuccess('Book review submitted successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
