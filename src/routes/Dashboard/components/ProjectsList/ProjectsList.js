@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './ProjectsList.styles'
 import WantingList from '../WantingList'
@@ -20,6 +20,7 @@ const useStyles = makeStyles(styles)
 function ProjectsList() {
   const classes = useStyles()
 
+
   // const firebase = useFirebase()
   const auth = useSelector(state => state.firebase.auth)
   
@@ -36,7 +37,7 @@ function ProjectsList() {
   const notifications = useSelector(state => state.firebase.ordered.notifications)
 
   console.log(notifications)
-
+  
   return (
     <div className={classes.root}>
       {!isEmpty(notifications) &&
@@ -46,7 +47,7 @@ function ProjectsList() {
             )
       })}
       <form action="/posts/" style={{ display: "inline-flex"}}>
-            <TextField name="title" label="search" margin="normal" variant="outlined" style={{ width: 300,background: "white" } } />
+        <TextField name="title" label="search" margin="normal" variant="outlined" style={{ width: 300,background: "white" } } />
         <Button type="submit" variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
       </form>   
       <WantingList/>

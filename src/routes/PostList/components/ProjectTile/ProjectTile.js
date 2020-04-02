@@ -6,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './ProjectTile.styles'
-import { BUYBOOK_PATH } from 'constants/paths'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 
@@ -18,11 +17,13 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
 
   function goToProject() {
     //TODO
-    return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
+    //return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
   }
 
   function buyBook(){
+    console.log(3)
     changeBook(project)
+    console.log(4)
     toggleDialog()
   }
 
