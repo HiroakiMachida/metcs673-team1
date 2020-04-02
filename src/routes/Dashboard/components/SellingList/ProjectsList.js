@@ -196,6 +196,7 @@ function ProjectsList() {
                 recepient={project && project.value.recepient}
                 address={project && project.value.address}
                 reviewText = {project && project.value.reviewText}
+                book={project}
               />
             )
           })}
