@@ -92,12 +92,22 @@ function useProjectsList() {
       reader.readAsDataURL(file);
     }else{
       console.log("no file!");
-      return firebase
-        .push('books', {
-          ...newInstance,
-          createdBy: auth.uid,
-          createdAt: firebase.database.ServerValue.TIMESTAMP
-        })
+      var newBooksKey = firebase.database().ref().child('books').push().key;
+      var newNotificationsKey = firebase.database().ref().child('books').push().key;
+
+      var updates = {};
+      updates['/books/' + newBooksKey] = {
+        ...newInstance,
+        createdBy: auth.uid,
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      };
+      updates['/notifications/' + newNotificationsKey] = {
+        userId: auth.uid,
+        body: `"${newInstance.title}" posted for selling.`,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+      };
+
+      return firebase.database().ref().update(updates)
         .then((ret) => {
           console.log(ret);
           console.log(typeof updateCategory);
