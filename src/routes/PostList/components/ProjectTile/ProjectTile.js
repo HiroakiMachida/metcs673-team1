@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
 import { useFirebase } from 'react-redux-firebase'
 import useNotifications from 'modules/notification/useNotifications'
 
@@ -17,7 +16,6 @@ const useStyles = makeStyles(styles)
 
 function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, attached,  changeBook, project,sellerId ,users,auth}) {
   const classes = useStyles()
-  const history = useHistory()
   const firebase = useFirebase()
   const { showError, showSuccess } = useNotifications()
 

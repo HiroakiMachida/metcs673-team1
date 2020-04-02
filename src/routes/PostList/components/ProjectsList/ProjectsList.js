@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx';
 import { useSelector } from 'react-redux'
@@ -13,16 +13,9 @@ import styles from './ProjectsList.styles'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Radio from '@material-ui/core/Radio'
-import Input from '@material-ui/core/Input'
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
-import { Field } from 'formik';
 
 
 const useStyles = makeStyles(styles)
@@ -76,12 +69,7 @@ function ProjectsList() {
   const pricerange = " <= price <= "
   const bookstatus = "Book Status: "
   const bookclassify = "Book Category: "
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+
 
   const [state,setState] = useState({
     checkedA: true,
@@ -104,16 +92,6 @@ function ProjectsList() {
       setOpen(true);
     }
   }
-
-  const advancesearch = () => {
-    var pl = params.get("priceupper")
-    var pu = params.get("priceupper")
-    console.log(pu)
-    console.log(pl)
-   //if(pl != "") pricelower = pl;
-    //if(pu != "") priceupper = pu;
-  }
-
 
   // Show spinner while projects are loading
   if (!isLoaded(projects) || !isLoaded(users)) {
@@ -257,13 +235,13 @@ function ProjectsList() {
                         && e.value.wanting !== true 
                         && e.value.price <= upper()
                         && e.value.price >= lower()
-                        && (e.value.status == checkedA()
-                          || e.value.status == checkedB()
-                          || e.value.status == checkedC())
-                        && (e.value.category == checked1()
-                          || e.value.category == checked2()
-                          || e.value.category == checked3()
-                          || e.value.category == checked4())
+                        && (e.value.status === checkedA()
+                          || e.value.status === checkedB()
+                          || e.value.status === checkedC())
+                        && (e.value.category === checked1()
+                          || e.value.category === checked2()
+                          || e.value.category === checked3()
+                          || e.value.category === checked4())
                         ).map((project, ind) => {
             return (
               <ProjectTile
