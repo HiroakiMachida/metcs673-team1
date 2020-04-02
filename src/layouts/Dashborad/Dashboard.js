@@ -119,6 +119,11 @@ const useStyles = makeStyles((theme) => ({
   alert: {
     marginTop: theme.spacing(2),
   },
+  signIn: {
+    color: 'white',
+    textDecoration: 'none',
+    alignSelf: 'center'
+  }
 }));
 
 export default function Dashboard({ children }) {

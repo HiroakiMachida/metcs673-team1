@@ -93,7 +93,7 @@ function useProjectsList() {
     }else{
       console.log("no file!");
       var newBooksKey = firebase.database().ref().child('books').push().key;
-      var newNotificationsKey = firebase.database().ref().child('books').push().key;
+      var newNotificationsKey = firebase.database().ref().child('notifications').push().key;
 
       var updates = {};
       updates['/books/' + newBooksKey] = {
