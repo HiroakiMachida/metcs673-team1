@@ -71,7 +71,8 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
                 component={TextField}
                 margin="normal"
                 fullWidth
-              /><input id="quaggaFile" type="file" accept="image/*" capture="camera" onChange={inputFile}/>
+              />
+              Scan bar code:<input id="quaggaFile" type="file" accept="image/*" capture="camera" onChange={inputFile}/>
               <Field
                 name="title"
                 label="Title"
@@ -93,7 +94,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
                 margin="normal"
                 fullWidth
               />
-              <input id="image" type="file"/>
+              Book cover:<input id="image" type="file"/>
             </DialogContent>
             <DialogActions>
               <Button onClick={onRequestClose} color="secondary">
@@ -106,7 +107,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
           </Form>
         )}
       </Formik>
-      <script src="input_file.js" type="text/javascript"></script>
+      
 
     </Dialog>
   )
