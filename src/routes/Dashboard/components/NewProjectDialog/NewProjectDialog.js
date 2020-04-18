@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import styles from './NewProjectDialog.styles'
+import Quagga from 'quagga';
 
 const useStyles = makeStyles(styles)
 
@@ -21,20 +22,56 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
     })
   }
 
+
+
+  function inputFile(){
+    const file = document.getElementById("quaggaFile").files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+      // convert image file to base64 string
+      analyzeQuaggaFile(reader.result);
+      //preview.src = reader.result;
+    }, false);
+    reader.readAsDataURL(file);
+  }
+
+  function analyzeQuaggaFile(src){
+  Quagga.decodeSingle({
+//    src: "/image-002.jpg",
+    src: src,
+    numOfWorkers: 0,  // Needs to be 0 when used within node
+    inputStream: {
+        size: 800  // restrict input-size to be 800px in width (long-side)
+    },
+    decoder: {
+        readers: ["ean_reader"] // List of active readers
+    },
+  }, function(result) {
+      if(result.codeResult) {
+          console.log("result", result.codeResult.code);
+          document.getElementById("quaggaIsbn").value = result.codeResult.code  ;
+      } else {
+          console.log("not detected");
+      }
+  });
+}
+
   return (
     <Dialog open={open} onClose={onRequestClose}>
       <DialogTitle id="new-project-dialog-title">Sell book</DialogTitle>
+
       <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
         {({ errors, isSubmitting }) => (
           <Form className={classes.root}>
             <DialogContent>
               <Field
+                id="quaggaIsbn"
                 name="isbn"
                 label="ISBN"
                 component={TextField}
                 margin="normal"
                 fullWidth
-              />
+              /><input id="quaggaFile" type="file" accept="image/*" capture="camera" onChange={inputFile}/>
               <Field
                 name="title"
                 label="Title"
@@ -69,6 +106,8 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
           </Form>
         )}
       </Formik>
+      <script src="input_file.js" type="text/javascript"></script>
+
     </Dialog>
   )
 }
