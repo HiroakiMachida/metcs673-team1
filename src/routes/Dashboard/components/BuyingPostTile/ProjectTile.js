@@ -15,7 +15,7 @@ import NewReviewDialog from '../NewReviewDialog'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, category, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached, reviewText}) {
+function ProjectTile({ name, title, category, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached, reviewText, book}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -26,9 +26,20 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
   const toggleDialog = () => changeDialogState(!newDialogOpen)
   
   function submitReviewForBook(params) {
-    
-    return firebase
-      .update(`books/${params.bookId}`, { delivery_status: 'review_submitted', reviewText: params.reviewText})
+    var newNotificationsSellerKey = firebase.database().ref().child('notifications').push().key;
+    var updates = {};
+    updates['/books/'+projectId] = {
+      ...book.value,
+      delivery_status: 'review_submitted',
+      reviewText: params.reviewText
+    };
+    updates['/notifications/' + newNotificationsSellerKey] = {
+      userId: book.value.createdBy,
+      body: `"${book.value.title}" review submitted.`,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    return firebase.database().ref().update(updates)
       .then(() => showSuccess('Book review submitted successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
@@ -41,20 +52,19 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
     return history.push(`${LIST_PATH}/${projectId}`)
   }
 
-  // function deleteProject() {
-  //   return firebase
-  //     .remove(`projects/${projectId}`)
-  //     .then(() => showSuccess('Project deleted successfully'))
-  //     .catch(err => {
-  //       console.error('Error:', err) // eslint-disable-line no-console
-  //       showError(err.message || 'Could not delete project')
-  //       return Promise.reject(err)
-  //     })
-  // }
-
   function updateProject() {
-    return firebase
-      .update(`books/${projectId}`, { delivery_status: 'received' })
+    var newNotificationsSellerKey = firebase.database().ref().child('notifications').push().key;
+    var updates = {};
+    updates['/books/'+projectId] = {
+      ...book.value,
+      delivery_status: 'received'
+    };
+    updates['/notifications/' + newNotificationsSellerKey] = {
+      userId: book.value.createdBy,
+      body: `"${book.value.title}" received.`,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    };
+    return firebase.database().ref().update(updates)
       .then(() => showSuccess('Book received successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console

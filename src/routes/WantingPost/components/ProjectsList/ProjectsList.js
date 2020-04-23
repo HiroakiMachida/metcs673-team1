@@ -122,7 +122,7 @@ function ProjectsList() {
         book={book}
         users={users}
       />
-      <h2>Search result</h2>
+      <h2>Search result - Books you can sell</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
           projects.filter(e=> e.value.wanting === true).map((project, ind) => {

@@ -14,7 +14,7 @@ import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, category, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address, reviewText}) {
+function ProjectTile({ name, title, category, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address, reviewText, book}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -25,15 +25,30 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
   }
 
   function updateProject() {
-    return firebase
-      .update(`books/${projectId}`, { delivery_status: 'shipping' })
-      .then(() => showSuccess('Post updated successfully'))
-      .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not update post')
-        return Promise.reject(err)
-      })
+
+    var newNotificationsBuyerKey = firebase.database().ref().child('notifications').push().key;
+
+    var updates = {};
+    updates['/books/'+projectId] = {
+      ...book.value,
+      delivery_status: 'shipping'
+    };
+    updates['/notifications/' + newNotificationsBuyerKey] = {
+      userId: book.value.buyer_id,
+      body: `"${book.value.title}" shipped.`,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    return firebase.database().ref().update(updates)
+    .then(() => showSuccess('Post updated successfully'))
+    .catch(err => {
+      console.error('Error:', err) // eslint-disable-line no-console
+      showError(err.message || 'Could not update post')
+      return Promise.reject(err)
+    })
   }
+
+
   function deleteBook() {
     return firebase
       .remove(`books/${projectId}`)

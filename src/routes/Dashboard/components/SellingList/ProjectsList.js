@@ -46,9 +46,11 @@ function useProjectsList() {
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
   
-  function updateCategory(ref, title){
+  function updateCategory(newBooksKey, title){
+    // For production
     const url = 'http://52.7.150.192:8000/predict';
-    //const url = 'http://www.mocky.io/v2/5e7eb394300000da134afb7c';
+    // For demo
+    // const url = 'http://www.mocky.io/v2/5e85c5f1300000210297b441';
     const data = {
       "document": title,
       "question": "Name the category."
@@ -67,8 +69,8 @@ function useProjectsList() {
           status: response.status
       })
       ).then(res => {
-        console.log(res.status, res.data)
-        ref.update({category: res.data.result.answer})
+        firebase.update(`books/${newBooksKey}`, { category: res.data.result.answer})
+        // ref.update({category: res.data.result.answer})
       }))
       .catch(error=>console.log(error))
   }
@@ -92,16 +94,24 @@ function useProjectsList() {
       reader.readAsDataURL(file);
     }else{
       console.log("no file!");
-      return firebase
-        .push('books', {
-          ...newInstance,
-          createdBy: auth.uid,
-          createdAt: firebase.database.ServerValue.TIMESTAMP
-        })
+      var newBooksKey = firebase.database().ref().child('books').push().key;
+      var newNotificationsKey = firebase.database().ref().child('notifications').push().key;
+
+      var updates = {};
+      updates['/books/' + newBooksKey] = {
+        ...newInstance,
+        createdBy: auth.uid,
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      };
+      updates['/notifications/' + newNotificationsKey] = {
+        userId: auth.uid,
+        body: `"${newInstance.title}" posted for selling.`,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+      };
+
+      return firebase.database().ref().update(updates)
         .then((ret) => {
-          console.log(ret);
-          console.log(typeof updateCategory);
-          updateCategory(ret, newInstance.title);
+          updateCategory(newBooksKey, newInstance.title);
           toggleDialog();
           showSuccess('Post added successfully');
         })
@@ -186,6 +196,7 @@ function ProjectsList() {
                 recepient={project && project.value.recepient}
                 address={project && project.value.address}
                 reviewText = {project && project.value.reviewText}
+                book={project}
               />
             )
           })}
