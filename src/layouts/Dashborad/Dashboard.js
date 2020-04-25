@@ -116,6 +116,9 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  alert: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default function Dashboard({ children }) {
