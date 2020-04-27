@@ -43,7 +43,7 @@ function ProjectsList() {
       {!isEmpty(notifications) &&
           notifications.map((notification, ind) => {
             return (
-              <Alert severity="info" style={{ marginTop: "30px"}}>{notification.value.body}</Alert>
+              <Alert severity="info" style={{ marginTop: "10px"}}>{notification.value.body}</Alert>
             )
       })}
       <form action="/posts/" style={{ display: "inline-flex"}}>

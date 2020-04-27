@@ -15,7 +15,7 @@ import styles from './NewProjectDialog.styles'
 
 const useStyles = makeStyles(styles)
 
-function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}) {
+function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users,title,isbn,status,price,sellerId}) {
   const classes = useStyles()
   const preventDefault = event => event.preventDefault();
 
@@ -29,8 +29,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
   return (
     <Dialog open={open} onClose={onRequestClose}>
       <DialogTitle id="new-project-dialog-title">Buy</DialogTitle>
-      
-      <Formik initialValues={{  }} onSubmit={handleSubmit}>
+      <Formik initialValues={{ ...book }} onSubmit={handleSubmit}>
         {({ errors, isSubmitting }) => (
           <Form className={classes.root}>
             {book.value.attached ? (<img src={book.value.attached} height="50" width="50" alt="cover"/>):''}
@@ -64,6 +63,15 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users}
                 component={TextField}
                 margin="normal"
                 placeholder={book.value.price}
+                fullWidth
+                disabled={true}
+              />
+              <Field
+                name="sellerid"
+                component={TextField}
+                margin="normal"
+                placeholder={book.value.createdBy}
+                value={book.value.createdBy}
                 fullWidth
                 disabled={true}
               />
