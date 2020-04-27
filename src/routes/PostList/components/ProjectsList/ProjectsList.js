@@ -71,15 +71,20 @@ function ProjectsList() {
   const bookclassify = "Book Category: "
 
 
+  const a = "fdsfds";
+
   const [state,setState] = useState({
-    checkedA: true,
-    checkedB: true,
-    checkedC: true,
-    checked1: true,
-    checked2: true,
-    checked3: true,
-    checked4: true,
+    checkedA: false,
+    checkedB: false,
+    checkedC: false,
+    checked1: false,
+    checked2: false,
+    checked3: false,
+    checked4: false,
+
   });
+
+
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]:event.target.checked});
@@ -92,6 +97,16 @@ function ProjectsList() {
       setOpen(true);
     }
   }
+
+
+  const advancesearch = () => {
+    var pl = params.get("priceupper")
+    var pu = params.get("priceupper")
+    console.log(pu)
+    console.log(pl)
+  }
+
+
 
   // Show spinner while projects are loading
   if (!isLoaded(projects) || !isLoaded(users)) {
@@ -107,32 +122,81 @@ function ProjectsList() {
   }
 
   function checkedA() {
-    return (params.get("checkedA") === null && params.get("title") !== null ) ? "Dirty" : params.get("checkedA")
+    return (params.get("checkedA") === null ) ? "Dirty" : params.get("checkedA")
   }
 
   function checkedB() {
-    return (params.get("checkedB") === null && params.get("title") !== null ) ? "Clean" : params.get("checkedB")
+    return (params.get("checkedB") === null ) ? "Clean" : params.get("checkedB")
   }
 
   function checkedC() {
-    return (params.get("checkedC") === null && params.get("title") !== null ) ? "Very Good" : params.get("checkedC")
+    return (params.get("checkedC") === null ) ? "Very Good" : params.get("checkedC")
+  }
+
+  function checkedABC() {
+    return ((params.get("checkedA") === null ) && (params.get("checkedB") === null ) && (params.get("checkedC") === null ))
   }
 
   function checked1() {
-    return (params.get("checked1") === null && params.get("title") !== null ) ? "Math" : params.get("checked1")
+    return (params.get("checked1") === null ) ? "Algorithm" : params.get("checked1")
   }
 
   function checked2() {
-    return (params.get("checked2") === null && params.get("title") !== null ) ? "Computer Science" : params.get("checked2")
+    return (params.get("checked2") === null ) ? "Computer Science" : params.get("checked2")
   }
 
   function checked3() {
-    return (params.get("checked3") === null && params.get("title") !== null ) ? "Literature" : params.get("checked3")
+    return (params.get("checked3") === null ) ? "Java" : params.get("checked3")
   }
 
   function checked4() {
-    return (params.get("checked4") === null && params.get("title") !== null ) ? "Biological" : params.get("checked4")
+    return (params.get("checked4") === null ) ? "Software Engineering" : params.get("checked4")
   }
+
+  function checked1234() {
+    return ((params.get("checked1") === null ) && (params.get("checked2") === null ) && (params.get("checked3") === null )
+    && (params.get("checked4") === null ))
+  }
+
+  Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+  };
+
+  const allcategory = []
+
+  function getAllCategory() {
+    projects.forEach(element => {
+      if (!allcategory.includes(element.value.category) && element.value.category != undefined) {
+        allcategory.push(element.value.category)
+      }
+      /*
+      if (!state.allcategory.some(row => row.includes(element.value.category)) && element.value.category !== undefined){
+        state.allcategory.push( [element.value.category, true]);
+      }*/
+    });
+  }
+
+
+  //getAllCategory()
+
+  /**
+   * 
+          {allcategory.map(cate => {
+            return (
+              <FormControlLabel control={<Checkbox checked={state.checked1} onChange={handleChange}name="checked1" />}
+                          key={cate}  label={cate} name={cate} value={cate}
+              />
+            )
+          })}
+   */
+
 
   return (
     <div className={classes.root}>
@@ -206,16 +270,16 @@ function ProjectsList() {
         <h1>{ bookclassify }</h1>
         <FormGroup row>
           <FormControlLabel control={<Checkbox checked={state.checked1} onChange={handleChange} name="checked1" />}
-                            label="Math" name="Math" value="Math"
+                            label="Algorithm" name="Algorithm" value="Algorithm"
           />
           <FormControlLabel control={<Checkbox checked={state.checked2} onChange={handleChange} name="checked2" />}
                             label="Computer Science" name="Computer Science" value="Computer Science"
           />
           <FormControlLabel control={<Checkbox checked={state.checked3} onChange={handleChange} name="checked3" />}
-                            label="Literature" name="Literature" value="Literature"
+                            label="Java" name="Java" value="Java"
           />
           <FormControlLabel control={<Checkbox checked={state.checked4} onChange={handleChange} name="checked4" />}
-                            label="Biological" name="Biological" value="Biological"
+                            label="Software Engineering" name="Software Engineering" value="Software Engineering"
           />
         </FormGroup>
         </section>
@@ -235,13 +299,14 @@ function ProjectsList() {
                         && e.value.wanting !== true 
                         && e.value.price <= upper()
                         && e.value.price >= lower()
-                        && (e.value.status === checkedA()
-                          || e.value.status === checkedB()
-                          || e.value.status === checkedC())
-                        && (e.value.category === checked1()
-                          || e.value.category === checked2()
-                          || e.value.category === checked3()
-                          || e.value.category === checked4())
+                        && (checkedABC() ? true : (e.value.status == checkedA()
+                          || e.value.status == checkedB()
+                          || e.value.status == checkedC()))
+                        && (checked1234() ? true : (e.value.category == checked1()
+                          || e.value.category == checked2()
+                          || e.value.category == checked3()
+                          || e.value.category == checked4()))
+
                         ).map((project, ind) => {
             return (
               <ProjectTile
