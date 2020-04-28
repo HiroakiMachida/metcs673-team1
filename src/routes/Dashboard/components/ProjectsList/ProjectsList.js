@@ -71,7 +71,8 @@ function ProjectsList() {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <h1>Sell textbooks to market</h1>
-            <Typography component="h2" variant="h6" color="primary" gutterBottom>Selling
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              1. Selling
               <Button onClick={() => history.push(`${POST_LIST_PATH}`) }>
                 Go To Book Selling Page
               </Button>
@@ -79,8 +80,16 @@ function ProjectsList() {
             <SellingList/>
             <Divider style={{ marginTop: "30px"}}/>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
-              Sold:</Typography> confirm payment, ship and click "shipped" button.
+              2. Sold:</Typography> confirm payment, ship and click "shipped" button.
             
+            <SellingList/>
+            <Divider style={{ marginTop: "30px"}}/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              3. Shipping now</Typography>
+            <SellingList/>
+            <Divider style={{ marginTop: "30px"}}/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              4. Received by buyer</Typography>
             <SellingList/>
           </Paper>
         </Grid>

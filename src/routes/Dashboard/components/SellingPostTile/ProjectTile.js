@@ -142,17 +142,7 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
               {price ? '$'+ price : 'No Price'}
             </th>
           </tr>
-          {delivery_status==="review_submitted" ? (
-            <tr>
-              <th>
-                <Chip size="small" label="Review"  />  
-              </th>
-              <th>
-                {reviewText || 'No Review Submitted'}
-              </th>
-            </tr>
-          ) : null}
-          {delivery_status==="sold" ? (
+          {delivery_status==="sold" || delivery_status==="shipping"  || delivery_status==="received" || delivery_status==="review_submitted" ? (
             <tr>
               <th>
                 <Chip size="small" label="Recipient"  color="secondary"/>  
@@ -162,13 +152,23 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
               </th>
             </tr>
           ) : null}
-          {delivery_status==="sold" ? (
+          {delivery_status==="sold" || delivery_status==="shipping" || delivery_status==="received" || delivery_status==="review_submitted" ? (
             <tr>
               <th>
                 <Chip size="small" label="Address"  color="secondary"/>  
               </th>
               <th>
                 {address || 'No Address'}
+              </th>
+            </tr>
+          ) : null}
+          {delivery_status==="review_submitted" ? (
+            <tr>
+              <th>
+                <Chip size="small" label="Review" color="primary" />  
+              </th>
+              <th>
+                {reviewText || 'No Review Submitted'}
               </th>
             </tr>
           ) : null}
