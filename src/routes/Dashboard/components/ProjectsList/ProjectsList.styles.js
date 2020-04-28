@@ -11,5 +11,15 @@ export default theme => ({
     justifyContent: 'center',
     flexWrap: 'wrap',
     '-webkit-flex-flow': 'row wrap'
-  }
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
 })

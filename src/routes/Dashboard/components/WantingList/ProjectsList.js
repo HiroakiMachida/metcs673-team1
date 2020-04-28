@@ -16,6 +16,7 @@ import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
 import { WANTING_POST_PATH } from 'constants/paths'
+import Typography from '@material-ui/core/Typography';
 
 
 
@@ -126,10 +127,11 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
-      <h2>Want
+      <h1>Buy/sell textbooks not in market</h1>
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>Want
         <Button onClick={() => history.push(`${WANTING_POST_PATH}`) }>
           Go To Wanting Page
-        </Button></h2>
+        </Button></Typography>
       <NewProjectDialog
         onSubmit={addProject}
         open={newDialogOpen}

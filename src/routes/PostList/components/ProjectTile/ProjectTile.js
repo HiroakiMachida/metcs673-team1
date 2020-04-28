@@ -28,10 +28,10 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
 
-  function goToProject() {
-    //TODO
-    //return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
-  }
+  // function goToProject() {
+  //   //TODO
+  //   //return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
+  // }
 
 
   function submitBuyBook(params){
