@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles(styles)
 
@@ -98,39 +99,83 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
           </Tooltip>
         ) : null}
       </div>
-      <div className={classes.top}>
-        <span className={classes.title} onClick={goToProject}>
-          {title || 'No Title'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.category} onClick={goToProject}>
-          {category || 'No Category'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.isbn} onClick={goToProject}>
-          {isbn || 'No ISBN'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.status} onClick={goToProject}>
-          {status || 'No Status'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.price} onClick={goToProject}>
-          {price || 'No Price'}
-        </span>
-      </div>
-      {delivery_status==="review_submitted" ? (
-          <div className={classes.top}>
-          <span className={classes.price} onClick={goToProject}>
-            {reviewText || 'No Review Submitted'}<br/>
-            
-          </span>
-        </div>
-        ) : null}
+
+      <table  style={{ marginRight: "10px", textAlign: 'left'}}>
+        <tbody>
+          <tr>
+            <th>
+              <Chip size="small" label="Title" />
+            </th>
+            <th>
+              {title || 'No Title'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Category"  />  
+            </th>
+            <th>
+             {category || 'No Category'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="ISBN"  />  
+            </th>
+            <th>
+                {isbn || 'No ISBN'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Status"  />  
+            </th>
+            <th>
+              {status || 'No Status'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Price" />  
+            </th>
+            <th>
+              {price ? '$'+ price : 'No Price'}
+            </th>
+          </tr>
+          {delivery_status==="review_submitted" ? (
+            <tr>
+              <th>
+                <Chip size="small" label="Review"  />  
+              </th>
+              <th>
+                {reviewText || 'No Review Submitted'}
+              </th>
+            </tr>
+          ) : null}
+          {delivery_status==="sold" ? (
+            <tr>
+              <th>
+                <Chip size="small" label="Recipient"  color="secondary"/>  
+              </th>
+              <th>
+                {recepient || 'No Recipient'}
+              </th>
+            </tr>
+          ) : null}
+          {delivery_status==="sold" ? (
+            <tr>
+              <th>
+                <Chip size="small" label="Address"  color="secondary"/>  
+              </th>
+              <th>
+                {address || 'No Address'}
+              </th>
+            </tr>
+          ) : null}
+
+        </tbody>
+      </table>
+
     </Paper>
   )
 }

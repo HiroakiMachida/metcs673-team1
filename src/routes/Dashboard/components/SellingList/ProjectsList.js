@@ -1,22 +1,18 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import {
   useFirebase,
   useFirebaseConnect,
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import Button from '@material-ui/core/Button'
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import SellingPostTile from '../SellingPostTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
-import { POST_LIST_PATH } from 'constants/paths'
-import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles(styles)
@@ -153,7 +149,6 @@ function useProjectsList() {
 
 function ProjectsList() {
   const classes = useStyles()
-  const history = useHistory()
   const {
     projects,
     addProject,
@@ -169,12 +164,6 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
-      <h1>Sell textbooks to market</h1>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>Selling
-        <Button onClick={() => history.push(`${POST_LIST_PATH}`) }>
-          Go To Book Selling Page
-        </Button>
-      </Typography>
       <NewProjectDialog
         onSubmit={addProject}
         open={newDialogOpen}

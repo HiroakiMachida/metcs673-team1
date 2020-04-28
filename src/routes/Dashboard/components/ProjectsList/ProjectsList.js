@@ -16,6 +16,10 @@ import {
 } from 'react-redux-firebase'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { POST_LIST_PATH } from 'constants/paths'
+import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom'
+import Divider from '@material-ui/core/Divider';
 
 
 
@@ -23,6 +27,8 @@ const useStyles = makeStyles(styles)
 
 function ProjectsList() {
   const classes = useStyles()
+  const history = useHistory()
+
 
 
   // const firebase = useFirebase()
@@ -64,6 +70,17 @@ function ProjectsList() {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
+            <h1>Sell textbooks to market</h1>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>Selling
+              <Button onClick={() => history.push(`${POST_LIST_PATH}`) }>
+                Go To Book Selling Page
+              </Button>
+            </Typography>
+            <SellingList/>
+            <Divider style={{ marginTop: "30px"}}/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              Sold:</Typography> confirm payment, ship and click "shipped" button.
+            
             <SellingList/>
           </Paper>
         </Grid>
