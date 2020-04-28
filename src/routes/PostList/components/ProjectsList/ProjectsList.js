@@ -231,18 +231,19 @@ function ProjectsList() {
       <h2>Search result - Books you can buy</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(e=>!e.value.delivery_status 
-                        && e.value.wanting !== true 
-                        && e.value.price <= upper()
-                        && e.value.price >= lower()
-                        && (e.value.status === checkedA()
-                          || e.value.status === checkedB()
-                          || e.value.status === checkedC())
-                        && (e.value.category === checked1()
-                          || e.value.category === checked2()
-                          || e.value.category === checked3()
-                          || e.value.category === checked4())
-                        ).map((project, ind) => {
+          // projects.filter(e=>!e.value.delivery_status 
+          //               && e.value.wanting !== true 
+          //               && e.value.price <= upper()
+          //               && e.value.price >= lower()
+          //               && (e.value.status === checkedA()
+          //                 || e.value.status === checkedB()
+          //                 || e.value.status === checkedC())
+          //               && (e.value.category === checked1()
+          //                 || e.value.category === checked2()
+          //                 || e.value.category === checked3()
+          //                 || e.value.category === checked4())
+          //               ).map((project, ind) => {
+          projects.map((project, ind) => {
             return (
               <ProjectTile
                 key={`Project-${project.key}-${ind}`}
