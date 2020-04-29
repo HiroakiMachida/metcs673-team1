@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
 import { useFirebase } from 'react-redux-firebase'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
@@ -8,16 +7,15 @@ import Tooltip from '@material-ui/core/Tooltip'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import { makeStyles } from '@material-ui/core/styles'
-import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
 import NewReviewDialog from '../NewReviewDialog'
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, category, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached, reviewText, book}) {
+function ProjectTile({ name, title, category, isbn, status, delivery_status, createdBy, price, projectId, showDelete, attached, reviewText, book, recipient, address,}) {
   const classes = useStyles()
-  const history = useHistory()
   const firebase = useFirebase()
   const { showError, showSuccess } = useNotifications()
 
@@ -47,10 +45,6 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
         return Promise.reject(err)
       })
   }
-  
-  function goToProject() {
-    return history.push(`${LIST_PATH}/${projectId}`)
-  }
 
   function updateProject() {
     var newNotificationsSellerKey = firebase.database().ref().child('notifications').push().key;
@@ -78,9 +72,7 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
   }
 
   return (
-    <Paper className={classes.root}
-      style={delivery_status==='received'?{background:"grey"}:{}}
-    >
+    <Paper className={classes.root}>
       <NewReviewDialog
         onSubmit={submitReviewForBook}
         bookId={projectId}
@@ -92,11 +84,6 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
       />
 
       <div className={classes.top}>
-        <span className={classes.delivery_status} onClick={goToProject}>
-          {delivery_status==="received" ? 'Received already.' : ''}
-        </span>
-      </div>
-      <div className={classes.top}>
         
         {delivery_status==='received' ? (
           <Tooltip title="Submit Review">
@@ -105,11 +92,6 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
             </IconButton>
           </Tooltip>
         ) : null}
-      </div>
-      <div className={classes.top}>
-        <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
-        {delivery_status==="shipping" ? 'Shipping now! Click "received" when received.' : ''}
-        </span>
       </div>
       <div className={classes.top}>
         {attached ? (<img src={attached} height="50" width="50" alt="cover" />):''}
@@ -121,39 +103,80 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
           </Tooltip>
         ) : null}
       </div>
-      <div className={classes.top}>
-        <span className={classes.title} onClick={goToProject}>
-          {title || 'No Name'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.category} onClick={goToProject}>
-          {category || 'No Category'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.isbn} onClick={goToProject}>
-          {isbn || 'No ISBN'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.status} onClick={goToProject}>
-          {status || 'No Status'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.price} onClick={goToProject}>
-          {price || 'No Price'}
-        </span>
-        {delivery_status==="review_submitted" ? (
-          <div className={classes.top}>
-          <span className={classes.price} onClick={goToProject}>
-            <br/>{reviewText || 'No Review Submitted'}<br/>
-            
-          </span>
-        </div>
-        ) : null}
-      </div>
+      <table  style={{ marginRight: "10px", textAlign: 'left'}}>
+        <tbody>
+          <tr>
+            <th>
+              <Chip size="small" label="Title" />
+            </th>
+            <th>
+              {title || 'No Title'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Category"  />  
+            </th>
+            <th>
+             {category || 'No Category'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="ISBN"  />  
+            </th>
+            <th>
+                {isbn || 'No ISBN'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Status"  />  
+            </th>
+            <th>
+              {status || 'No Status'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Price" />  
+            </th>
+            <th>
+              {price ? '$'+ price : 'No Price'}
+            </th>
+          </tr>
+          {delivery_status==="sold" || delivery_status==="shipping"  || delivery_status==="received" || delivery_status==="review_submitted" ? (
+            <tr>
+              <th>
+                <Chip size="small" label="Recipient"  color="secondary"/>  
+              </th>
+              <th>
+                {recipient || 'No Recipient'}
+              </th>
+            </tr>
+          ) : null}
+          {delivery_status==="sold" || delivery_status==="shipping" || delivery_status==="received" || delivery_status==="review_submitted" ? (
+            <tr>
+              <th>
+                <Chip size="small" label="Address"  color="secondary"/>  
+              </th>
+              <th>
+                {address || 'No Address'}
+              </th>
+            </tr>
+          ) : null}
+          {delivery_status==="review_submitted" ? (
+            <tr>
+              <th>
+                <Chip size="small" label="Review" color="primary" />  
+              </th>
+              <th>
+                {reviewText || 'No Review Submitted'}
+              </th>
+            </tr>
+          ) : null}
+        </tbody>
+      </table>
     </Paper>
   )
 }

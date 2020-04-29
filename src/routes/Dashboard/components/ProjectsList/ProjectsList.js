@@ -61,7 +61,7 @@ function ProjectsList() {
           <Paper className={classes.paper}>
             <h1>Notifications</h1>
             {!isEmpty(notifications) &&
-              notifications.map((notification, ind) => {
+              notifications.sort((a,b) => {return b.value.createdAt - a.value.createdAt}).map((notification, ind) => {
                 return (
                   <Alert severity="info" style={{ marginTop: "5px", marginBottom: "5px"}}>{notification.value.body}</Alert>
                 )
@@ -97,14 +97,15 @@ function ProjectsList() {
           <Paper className={classes.paper}>
             <h1>Buy textbooks from market</h1>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
-              1. Purchased</Typography>
-            <BuyingList />
+              1. Purchased</Typography>Wait for shipping.
+            <BuyingList delivery_status='sold'/>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
               2. Shpping now</Typography> When received, click "received" button.
-            <BuyingList />
+            <BuyingList delivery_status='shipping'/>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
-              3. Received</Typography>
-            <BuyingList />
+              3. Received</Typography>Write review!
+            <BuyingList delivery_status='received'/>
+            <BuyingList delivery_status='review_submitted'/>
           </Paper>
         </Grid>
         <Grid item xs={12}>
