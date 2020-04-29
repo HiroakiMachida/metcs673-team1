@@ -20,6 +20,7 @@ import { POST_LIST_PATH } from 'constants/paths'
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
+import { WANTING_POST_PATH } from 'constants/paths'
 
 
 
@@ -110,6 +111,11 @@ function ProjectsList() {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
+            <h1>Buy textbooks not in market</h1>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>Want
+            <Button onClick={() => history.push(`${WANTING_POST_PATH}`) }>
+              Go To Wanting Page
+            </Button></Typography>
             <WantingList/>
           </Paper>
         </Grid>

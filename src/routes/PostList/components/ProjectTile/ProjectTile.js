@@ -37,7 +37,6 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
   function submitBuyBook(params){
 
     var newNotificationsSellerKey = firebase.database().ref().child('notifications').push().key;
-    var newNotificationsBuyerKey = firebase.database().ref().child('notifications').push().key;
 
     console.log(params)
     var updates = {};
@@ -51,11 +50,6 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
     updates['/notifications/' + newNotificationsSellerKey] = {
       userId: sellerId,
       body: `"${title}" sold.`,
-      createdAt: firebase.database.ServerValue.TIMESTAMP,
-    };
-    updates['/notifications/' + newNotificationsBuyerKey] = {
-      userId: auth.uid,
-      body: `You bought "${title}".`,
       createdAt: firebase.database.ServerValue.TIMESTAMP,
     };
 
@@ -131,7 +125,7 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
               <Chip size="small" label="Price" />  
             </th>
             <th>
-              {'$'+ price || 'No Price'}
+              {price ? '$'+ price : 'No Price'}
             </th>
           </tr>
         </tbody>

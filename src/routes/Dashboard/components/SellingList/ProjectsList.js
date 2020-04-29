@@ -47,7 +47,7 @@ function useProjectsList() {
     // For production
     const url = 'http://52.7.150.192:8000/predict';
     // For demo
-    // const url = 'http://www.mocky.io/v2/5e85c5f1300000210297b441';
+    //const url = 'http://www.mocky.io/v2/5e85c5f1300000210297b441';
     const data = {
       "document": title,
       "question": "Name the category."
@@ -92,18 +92,12 @@ function useProjectsList() {
     }else{
       console.log("no file!");
       var newBooksKey = firebase.database().ref().child('books').push().key;
-      var newNotificationsKey = firebase.database().ref().child('notifications').push().key;
 
       var updates = {};
       updates['/books/' + newBooksKey] = {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.database.ServerValue.TIMESTAMP
-      };
-      updates['/notifications/' + newNotificationsKey] = {
-        userId: auth.uid,
-        body: `"${newInstance.title}" posted for selling.`,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
       };
 
       return firebase.database().ref().update(updates)

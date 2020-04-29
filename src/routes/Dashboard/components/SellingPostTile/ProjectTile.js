@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
 import { useFirebase } from 'react-redux-firebase'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
@@ -8,7 +7,6 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Tooltip from '@material-ui/core/Tooltip'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import { makeStyles } from '@material-ui/core/styles'
-import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
 import Chip from '@material-ui/core/Chip';
@@ -17,13 +15,8 @@ const useStyles = makeStyles(styles)
 
 function ProjectTile({ name, title, category, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recipient, address, reviewText, book}) {
   const classes = useStyles()
-  const history = useHistory()
   const firebase = useFirebase()
   const { showError, showSuccess } = useNotifications()
-
-  function goToProject() {
-    return history.push(`${LIST_PATH}/${projectId}`)
-  }
 
   function updateProject() {
 
@@ -62,17 +55,10 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
   }
 
   return (
-    <Paper className={classes.root}
-      style={delivery_status==='received'?{background:"grey"}:{}}
-    >
-      <div className={classes.top}>
-        <span className={classes.delivery_status} onClick={goToProject} >
-          {delivery_status==='received' ? 'Received by buyer.' : ''}
-        </span>
-      </div>
+    <Paper className={classes.root}>
         {console.log( " DS : "  + delivery_status)}
       <div className={classes.top}>
-        {attached ? (<img src={attached} height="50" width="50" alt="cover"/>):''}
+        {attached ? (<img src={attached} height="50" width="50" alt="cover" style={{marginBottom: '10px'}}/>):''}
         {!delivery_status ? (
           <Tooltip title="delete">
             <IconButton onClick={deleteBook}>

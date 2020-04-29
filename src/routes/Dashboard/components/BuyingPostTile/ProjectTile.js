@@ -94,7 +94,7 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, cre
         ) : null}
       </div>
       <div className={classes.top}>
-        {attached ? (<img src={attached} height="50" width="50" alt="cover" />):''}
+        {attached ? (<img src={attached} height="50" width="50" alt="cover" style={{marginBottom: '10px'}}/>):''}
         {delivery_status==='shipping' ? (
           <Tooltip title="received">
             <IconButton onClick={updateProject}>
