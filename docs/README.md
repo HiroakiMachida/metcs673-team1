@@ -13,7 +13,7 @@ Users can buy & sell used textbooks
 1. User B receives textbook!
 
 ----
-## Basic user story
+## Buy textbook in market
 I post textbook for selling and you buy it!
 
 ### 1. User A posts textbook for selling

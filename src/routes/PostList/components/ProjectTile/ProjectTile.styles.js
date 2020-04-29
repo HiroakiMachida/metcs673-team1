@@ -3,7 +3,7 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    height: '200px',
+    height: '220px',
     width: '300px',
     margin: theme.spacing(0.5),
     padding: theme.spacing(1.3)

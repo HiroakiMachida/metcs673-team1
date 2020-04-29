@@ -63,7 +63,7 @@ function AdvanceSearchDialog({ onSubmit, open, onRequestClose }) {
                 disabled={true}
               />
               <Field
-                name="recepient"
+                name="recipient"
                 component={TextField}
                 margin="normal"
                 placeholder="Your name"

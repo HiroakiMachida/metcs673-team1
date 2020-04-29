@@ -76,7 +76,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose, bookId, book, users,
                 disabled={true}
               />
               <Field
-                name="recepient"
+                name="recipient"
                 component={TextField}
                 margin="normal"
                 placeholder="Your name"

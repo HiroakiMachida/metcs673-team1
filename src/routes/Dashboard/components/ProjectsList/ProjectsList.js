@@ -14,11 +14,22 @@ import {
   useFirebaseConnect,
   isEmpty
 } from 'react-redux-firebase'
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { POST_LIST_PATH } from 'constants/paths'
+import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom'
+import Divider from '@material-ui/core/Divider';
+import { WANTING_POST_PATH } from 'constants/paths'
+
+
 
 const useStyles = makeStyles(styles)
 
 function ProjectsList() {
   const classes = useStyles()
+  const history = useHistory()
+
 
 
   // const firebase = useFirebase()
@@ -40,19 +51,77 @@ function ProjectsList() {
   
   return (
     <div className={classes.root}>
-      {!isEmpty(notifications) &&
-          notifications.map((notification, ind) => {
-            return (
-              <Alert severity="info" style={{ marginTop: "10px"}}>{notification.value.body}</Alert>
-            )
-      })}
       <form action="/posts/" style={{ display: "inline-flex"}}>
         <TextField name="title" label="search" margin="normal" variant="outlined" style={{ width: 300,background: "white" } } />
         <Button type="submit" variant="contained" color="primary" style={{ margin: "15px",marginTop:"21px"}}>Search</Button>
       </form>   
-      <WantingList/>
-      <SellingList/>
-      <BuyingList />
+
+      
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <h1>Notifications</h1>
+            {!isEmpty(notifications) &&
+              notifications.sort((a,b) => {return b.value.createdAt - a.value.createdAt}).map((notification, ind) => {
+                return (
+                  <Alert severity="info" style={{ marginTop: "5px", marginBottom: "5px"}}>{notification.value.body}</Alert>
+                )
+              })}
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <h1>Sell textbooks to market</h1>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              1. Selling
+              <Button onClick={() => history.push(`${POST_LIST_PATH}`) }>
+                Go To Book Selling Page
+              </Button>
+            </Typography>
+            <SellingList/>
+            <Divider style={{ marginTop: "30px"}}/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              2. Sold</Typography> Confirm payment, ship and click "shipped" button.
+            <SellingList delivery_status='sold'/>
+            <Divider style={{ marginTop: "30px"}}/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              3. Shipping now</Typography>
+            <SellingList delivery_status='shipping'/>
+            <Divider style={{ marginTop: "30px"}}/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              4. Received by buyer</Typography>
+            <SellingList delivery_status='received'/>
+            <SellingList delivery_status='review_submitted'/>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <h1>Buy textbooks from market</h1>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              1. Purchased</Typography>Wait for shipping.
+            <BuyingList delivery_status='sold'/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              2. Shpping now</Typography> When received, click "received" button.
+            <BuyingList delivery_status='shipping'/>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              3. Received</Typography>Write review!
+            <BuyingList delivery_status='received'/>
+            <BuyingList delivery_status='review_submitted'/>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <h1>Buy textbooks not in market</h1>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>Want
+            <Button onClick={() => history.push(`${WANTING_POST_PATH}`) }>
+              Go To Wanting Page
+            </Button></Typography>
+            <WantingList/>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      
     </div>
   )
 }

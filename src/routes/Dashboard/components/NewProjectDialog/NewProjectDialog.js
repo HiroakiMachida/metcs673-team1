@@ -24,18 +24,21 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
 
 
 
-  function inputFile(){
+  function inputFile(setFieldValue){
+    if(document.getElementById("quaggaFile")===null){
+      return null
+    }
     const file = document.getElementById("quaggaFile").files[0];
     const reader = new FileReader();
     reader.addEventListener("load", function () {
       // convert image file to base64 string
-      analyzeQuaggaFile(reader.result);
+      analyzeQuaggaFile(reader.result, setFieldValue);
       //preview.src = reader.result;
     }, false);
     reader.readAsDataURL(file);
   }
 
-  function analyzeQuaggaFile(src){
+  function analyzeQuaggaFile(src, setFieldValue){
   Quagga.decodeSingle({
 //    src: "/image-002.jpg",
     src: src,
@@ -47,10 +50,14 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
         readers: ["ean_reader"] // List of active readers
     },
   }, function(result) {
+      if(result==null){
+        return null;
+      }
       if(result.codeResult) {
           console.log("result", result.codeResult.code);
-          document.getElementById("quaggaIsbn").value = result.codeResult.code  ;
-      } else {
+          // document.getElementById("quaggaIsbn").value = result.codeResult.code  ;
+          setFieldValue("isbn", result.codeResult.code);
+        } else {
           console.log("not detected");
       }
   });
@@ -61,7 +68,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
       <DialogTitle id="new-project-dialog-title">Sell book</DialogTitle>
 
       <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
-        {({ errors, isSubmitting }) => (
+        {({ errors, isSubmitting, setFieldValue }) => (
           <Form className={classes.root}>
             <DialogContent>
               <Field
@@ -72,7 +79,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
                 margin="normal"
                 fullWidth
               />
-              Scan bar code:<input id="quaggaFile" type="file" accept="image/*" capture="camera" onChange={inputFile}/>
+              Scan bar code:<input id="quaggaFile" type="file" accept="image/*" capture="camera" onChange={()=>inputFile(setFieldValue)}/>
               <Field
                 name="title"
                 label="Title"

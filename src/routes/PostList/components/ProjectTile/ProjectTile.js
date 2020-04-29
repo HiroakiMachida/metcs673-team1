@@ -10,9 +10,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import styles from './ProjectTile.styles'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import BuyBookDialog from '../BuyBookDialog'
+import Chip from '@material-ui/core/Chip';
 
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
+
 
 function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, attached,  changeBook, project,sellerId ,users,auth}) {
   const classes = useStyles()
@@ -26,32 +28,28 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
 
-  function goToProject() {
-    //TODO
-    //return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
-  }
+  // function goToProject() {
+  //   //TODO
+  //   //return history.push(`${BUYBOOK_PATH}?isbn=${isbn}&name=${name}&title=${title}&status=${status}&price=${price}`)
+  // }
 
 
   function submitBuyBook(params){
 
     var newNotificationsSellerKey = firebase.database().ref().child('notifications').push().key;
-    var newNotificationsBuyerKey = firebase.database().ref().child('notifications').push().key;
 
-
+    console.log(params)
     var updates = {};
     updates['/books/'+projectId] = {
       ...project.value,
       buyer_id: auth.uid,
-      delivery_status: 'sold'
+      delivery_status: 'sold',
+      recipient: params.recipient,
+      address: params.address,
     };
     updates['/notifications/' + newNotificationsSellerKey] = {
       userId: sellerId,
       body: `"${title}" sold.`,
-      createdAt: firebase.database.ServerValue.TIMESTAMP,
-    };
-    updates['/notifications/' + newNotificationsBuyerKey] = {
-      userId: auth.uid,
-      body: `You bought "${title}".`,
       createdAt: firebase.database.ServerValue.TIMESTAMP,
     };
 
@@ -86,7 +84,7 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
         price={price}
         sellerId={project.value.c}
       />
-      <div className={classes.top}>
+      <div className={classes.top} style={{ marginBottom: "15px"}} >
         {attached ? (<img src={attached} height="50" width="50" alt="cover" />):''}
         {showDelete ? (
           <Tooltip title="buy">
@@ -96,26 +94,42 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
           </Tooltip>
         ) : null}
       </div>
-      <div className={classes.top}>
-        <span className={classes.title} onClick={goToProject}>
-          {title || 'No Title'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.isbn} onClick={goToProject}>
-          {isbn || 'No ISBN'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.status} onClick={goToProject}>
-          {status || 'No Status'}
-        </span>
-      </div>
-      <div className={classes.top}>
-        <span className={classes.price} onClick={goToProject}>
-          {price || 'No Price'}
-        </span>
-      </div>
+      <table  style={{ marginRight: "10px", textAlign: 'left'}}>
+        <tbody>
+          <tr>
+            <th>
+              <Chip size="small" label="Title" />
+            </th>
+            <th>
+              {title || 'No Title'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="ISBN"  />  
+            </th>
+            <th>
+                {isbn || 'No ISBN'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Status"  />  
+            </th>
+            <th>
+              {status || 'No Status'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Price" />  
+            </th>
+            <th>
+              {price ? '$'+ price : 'No Price'}
+            </th>
+          </tr>
+        </tbody>
+      </table>
     </Paper>
   )
 }

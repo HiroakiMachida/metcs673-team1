@@ -1,21 +1,18 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import {
   useFirebase,
   useFirebaseConnect,
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import Button from '@material-ui/core/Button'
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import SellingPostTile from '../SellingPostTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
-import { POST_LIST_PATH } from 'constants/paths'
 
 
 const useStyles = makeStyles(styles)
@@ -50,7 +47,7 @@ function useProjectsList() {
     // For production
     const url = 'http://52.7.150.192:8000/predict';
     // For demo
-    // const url = 'http://www.mocky.io/v2/5e85c5f1300000210297b441';
+    //const url = 'http://www.mocky.io/v2/5e85c5f1300000210297b441';
     const data = {
       "document": title,
       "question": "Name the category."
@@ -74,23 +71,8 @@ function useProjectsList() {
       }))
       .catch(error=>console.log(error))
   }
-//TODO
 
   function addProject(newInstance) {
-/*
-    var gis = require('g-i-s');
-    gis('cats', logResults);
-  
-    function logResults(error, results) {
-      if (error) {
-        console.log(error);
-      }
-      else {
-        console.log(JSON.stringify(results, null, '  '));
-        }
-    }
-    */
-
     const file = document.getElementById("image").files[0]
     console.log(file);
     const reader = new FileReader();
@@ -108,52 +90,14 @@ function useProjectsList() {
       }, false);
       reader.readAsDataURL(file);
     }else{
-      var gis = require('g-i-s');
-      gis(newInstance.title, logResults);
-    
-      function logResults(error, results) {
-        if (error) {
-          console.log(error);
-        }
-        else {
-          console.log(results[0].url);
-
-          return firebase
-            .push('books', {
-              ...newInstance,
-              createdBy: auth.uid,
-              createdAt: firebase.database.ServerValue.TIMESTAMP,
-              attached: results[0].url
-            })
-            .then((ret) => {
-              console.log(ret);
-              console.log(typeof updateCategory);
-              updateCategory(ret, newInstance.title);
-              toggleDialog()
-              showSuccess('Post updated successfully')
-            })
-            .catch(err => {
-              console.error('Error:', err) // eslint-disable-line no-console
-              showError(err.message || 'Could not add post')
-              return Promise.reject(err)
-            })
-        }
-      }
-/*
       console.log("no file!");
       var newBooksKey = firebase.database().ref().child('books').push().key;
-      var newNotificationsKey = firebase.database().ref().child('notifications').push().key;
 
       var updates = {};
       updates['/books/' + newBooksKey] = {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.database.ServerValue.TIMESTAMP
-      };
-      updates['/notifications/' + newNotificationsKey] = {
-        userId: auth.uid,
-        body: `"${newInstance.title}" posted for selling.`,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
       };
 
       return firebase.database().ref().update(updates)
@@ -166,7 +110,7 @@ function useProjectsList() {
           console.error('Error:', err) // eslint-disable-line no-console
           showError(err.message || 'Could not add post')
           return Promise.reject(err)
-        })*/
+        })
     }
 
   
@@ -197,9 +141,8 @@ function useProjectsList() {
   return { projects, addProject, newDialogOpen, toggleDialog, auth }
 }
 
-function ProjectsList() {
+function ProjectsList({delivery_status}) {
   const classes = useStyles()
-  const history = useHistory()
   const {
     projects,
     addProject,
@@ -213,22 +156,16 @@ function ProjectsList() {
     return <LoadingSpinner />
   }
 
-
-
   return (
     <div className={classes.root}>
-      <h2>Selling
-        <Button onClick={() => history.push(`${POST_LIST_PATH}`) }>
-          Go To Book Selling Page
-        </Button></h2>
       <NewProjectDialog
         onSubmit={addProject}
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
       <div className={classes.tiles}>
-        {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting !== true).map((project, ind) => {
+      {!isEmpty(projects) &&
+          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting !== true && p.value.delivery_status === delivery_status).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}
@@ -242,14 +179,15 @@ function ProjectsList() {
                 price={project && project.value.price}
                 projectId={project.key}
                 attached={project && project.value.attached}
-                recepient={project && project.value.recepient}
+                recipient={project && project.value.recipient}
                 address={project && project.value.address}
                 reviewText = {project && project.value.reviewText}
                 book={project}
               />
             )
           })}
-        <NewProjectTile onClick={toggleDialog} />
+       
+        {delivery_status ? '' : <NewProjectTile onClick={toggleDialog} /> }
       </div>
     </div>
   )

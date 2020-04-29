@@ -38,7 +38,7 @@ function useProjectsList() {
   return { projects, auth }
 }
 
-function ProjectsList() {
+function ProjectsList({delivery_status}) {
   const classes = useStyles()
   const {
     projects,
@@ -52,10 +52,9 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
-      <h2>Purchased</h2>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.buyer_id === auth.uid).map((project, ind) => {  
+          projects.filter(p => p && p.value.buyer_id === auth.uid && p.value.delivery_status===delivery_status).map((project, ind) => {  
             return (
               <BuyingPostTile
                 key={`Project-${project.key}-${ind}`}
@@ -71,6 +70,8 @@ function ProjectsList() {
                 delivery_status={project.value.delivery_status}
                 reviewText={project.value.reviewText}
                 book={project}
+                recipient={project && project.value.recipient}
+                address={project && project.value.address}
               />
             )
           })}
