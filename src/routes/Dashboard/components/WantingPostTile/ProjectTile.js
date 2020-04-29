@@ -14,7 +14,7 @@ import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address, reviewText}) {
+function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recipient, address, reviewText}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -58,7 +58,7 @@ function ProjectTile({ name, title, isbn, status, delivery_status, buyer_id, pri
         <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
           {delivery_status==='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
           {delivery_status==='sold' ? <br/>: ''}
-          {delivery_status==='sold' ? recepient: ''}
+          {delivery_status==='sold' ? recipient: ''}
           {delivery_status==='sold' ? <br/>: ''}
           {delivery_status==='sold' ? address: ''}
           {delivery_status==='shipping' ? 'Shipping now' : ''}

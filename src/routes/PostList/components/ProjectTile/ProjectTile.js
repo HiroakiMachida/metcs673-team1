@@ -39,12 +39,14 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
     var newNotificationsSellerKey = firebase.database().ref().child('notifications').push().key;
     var newNotificationsBuyerKey = firebase.database().ref().child('notifications').push().key;
 
-
+    console.log(params)
     var updates = {};
     updates['/books/'+projectId] = {
       ...project.value,
       buyer_id: auth.uid,
-      delivery_status: 'sold'
+      delivery_status: 'sold',
+      recipient: params.recipient,
+      address: params.address,
     };
     updates['/notifications/' + newNotificationsSellerKey] = {
       userId: sellerId,

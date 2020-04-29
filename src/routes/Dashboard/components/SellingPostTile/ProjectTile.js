@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles(styles)
 
-function ProjectTile({ name, title, category, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recepient, address, reviewText, book}) {
+function ProjectTile({ name, title, category, isbn, status, delivery_status, buyer_id, price, projectId, showDelete, attached, recipient, address, reviewText, book}) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
@@ -70,18 +70,7 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
           {delivery_status==='received' ? 'Received by buyer.' : ''}
         </span>
       </div>
-      <div className={classes.top}>
-        <span className={classes.delivery_status} onClick={goToProject} style={{color:"red"}}>
-          {delivery_status==='sold' ? 'Sold! Confirm payment, ship, and click "shipped"!': ''}
-          {delivery_status==='sold' ? <br/>: ''}
-          {delivery_status==='sold' ? recepient: ''}
-          {delivery_status==='sold' ? <br/>: ''}
-          {delivery_status==='sold' ? address: ''}
-          {delivery_status==='shipping' ? 'Shipping now' : ''}
-          
-          {console.log( " DS : "  + delivery_status)}
-        </span>
-      </div>
+        {console.log( " DS : "  + delivery_status)}
       <div className={classes.top}>
         {attached ? (<img src={attached} height="50" width="50" alt="cover"/>):''}
         {!delivery_status ? (
@@ -148,7 +137,7 @@ function ProjectTile({ name, title, category, isbn, status, delivery_status, buy
                 <Chip size="small" label="Recipient"  color="secondary"/>  
               </th>
               <th>
-                {recepient || 'No Recipient'}
+                {recipient || 'No Recipient'}
               </th>
             </tr>
           ) : null}

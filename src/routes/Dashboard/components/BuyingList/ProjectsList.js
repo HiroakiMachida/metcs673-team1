@@ -9,7 +9,6 @@ import {
 import LoadingSpinner from 'components/LoadingSpinner'
 import BuyingPostTile from '../BuyingPostTile'
 import styles from './ProjectsList.styles'
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(styles)
 
@@ -53,8 +52,6 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
-      <h1>Buy textbooks from market</h1>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>Purchased</Typography>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
           projects.filter(p => p && p.value.buyer_id === auth.uid).map((project, ind) => {  

@@ -80,21 +80,30 @@ function ProjectsList() {
             <SellingList/>
             <Divider style={{ marginTop: "30px"}}/>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
-              2. Sold:</Typography> confirm payment, ship and click "shipped" button.
-            
-            <SellingList/>
+              2. Sold</Typography> Confirm payment, ship and click "shipped" button.
+            <SellingList delivery_status='sold'/>
             <Divider style={{ marginTop: "30px"}}/>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
               3. Shipping now</Typography>
-            <SellingList/>
+            <SellingList delivery_status='shipping'/>
             <Divider style={{ marginTop: "30px"}}/>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
               4. Received by buyer</Typography>
-            <SellingList/>
+            <SellingList delivery_status='received'/>
+            <SellingList delivery_status='review_submitted'/>
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
+            <h1>Buy textbooks from market</h1>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              1. Purchased</Typography>
+            <BuyingList />
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              2. Shpping now</Typography> When received, click "received" button.
+            <BuyingList />
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+              3. Received</Typography>
             <BuyingList />
           </Paper>
         </Grid>

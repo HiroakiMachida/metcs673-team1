@@ -147,7 +147,7 @@ function useProjectsList() {
   return { projects, addProject, newDialogOpen, toggleDialog, auth }
 }
 
-function ProjectsList() {
+function ProjectsList({delivery_status}) {
   const classes = useStyles()
   const {
     projects,
@@ -170,8 +170,8 @@ function ProjectsList() {
         onRequestClose={toggleDialog}
       />
       <div className={classes.tiles}>
-        {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting !== true).map((project, ind) => {
+      {!isEmpty(projects) &&
+          projects.filter(p => p && p.value.createdBy === auth.uid && p.value.wanting !== true && p.value.delivery_status === delivery_status).map((project, ind) => {
             return (
               <SellingPostTile
                 key={`Project-${project.key}-${ind}`}
@@ -192,7 +192,8 @@ function ProjectsList() {
               />
             )
           })}
-        <NewProjectTile onClick={toggleDialog} />
+       
+        {delivery_status ? '' : <NewProjectTile onClick={toggleDialog} /> }
       </div>
     </div>
   )

@@ -153,7 +153,7 @@ function ProjectsList() {
                 price={project && project.value.price}
                 projectId={project.key}
                 attached={project && project.value.attached}
-                recepient={project && project.value.recepient}
+                recipient={project && project.value.recipient}
                 address={project && project.value.address}
                 reviewText = {project && project.value.reviewText}
               />
