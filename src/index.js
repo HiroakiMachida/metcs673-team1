@@ -26,6 +26,7 @@ const initialState = window.___INITIAL_STATE__ || {
 const store = createStore(initialState)
 const routes = require('./routes/index').default(store)
 
+
 ReactDOM.render(
   <App store={store} routes={routes} />,
   document.getElementById('root')

@@ -13,7 +13,6 @@ const useStyles = makeStyles(styles)
 
 function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, attached, toggleDialog, changeBook, project }) {
   const classes = useStyles()
-  const history = useHistory()
 
   function goToProject() {
     //TODO

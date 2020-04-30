@@ -17,7 +17,6 @@ import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
 import { POST_LIST_PATH } from 'constants/paths'
 
-
 const useStyles = makeStyles(styles)
 
 function useProjectsList() {
@@ -46,9 +45,11 @@ function useProjectsList() {
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
   
-  function updateCategory(ref, title){
+  function updateCategory(newBooksKey, title){
+    // For production
     const url = 'http://52.7.150.192:8000/predict';
-    //const url = 'http://www.mocky.io/v2/5e7eb394300000da134afb7c';
+    // For demo
+    // const url = 'http://www.mocky.io/v2/5e85c5f1300000210297b441';
     const data = {
       "document": title,
       "question": "Name the category."
@@ -67,13 +68,13 @@ function useProjectsList() {
           status: response.status
       })
       ).then(res => {
-        console.log(res.status, res.data)
-        ref.update({category: res.data.result.answer})
+        firebase.update(`books/${newBooksKey}`, { category: res.data.result.answer})
+        // ref.update({category: res.data.result.answer})
       }))
       .catch(error=>console.log(error))
   }
 //TODO
-
+  const queryString = require('query-string');
   function addProject(newInstance) {
 /*
     var gis = require('g-i-s');
@@ -106,22 +107,18 @@ function useProjectsList() {
       }, false);
       reader.readAsDataURL(file);
     }else{
-      var gis = require('g-i-s');
-      gis(newInstance.title, logResults);
-    
-      function logResults(error, results) {
-        if (error) {
-          console.log(error);
-        }
-        else {
-          console.log(results[0].url);
-
+      // image auto fill
+      const ipics = require('ipics');
+        //console.log(Promise.resolve( ipics('cat', 'book')));
+      ipics(newInstance.title, 'book').then(function(v) {
+        console.log(v[0]); // "Resolving"
+        if (v[0] != undefined) {
           return firebase
             .push('books', {
               ...newInstance,
               createdBy: auth.uid,
               createdAt: firebase.database.ServerValue.TIMESTAMP,
-              attached: results[0].url
+              attached: v[0].imageUrl
             })
             .then((ret) => {
               console.log(ret);
@@ -135,38 +132,33 @@ function useProjectsList() {
               showError(err.message || 'Could not add post')
               return Promise.reject(err)
             })
+        } else {
+          console.log("no file!");
+          var newBooksKey = firebase.database().ref().child('books').push().key;
+
+          var updates = {};
+          updates['/books/' + newBooksKey] = {
+            ...newInstance,
+            createdBy: auth.uid,
+            createdAt: firebase.database.ServerValue.TIMESTAMP
+          };
+
+          return firebase.database().ref().update(updates)
+            .then((ret) => {
+              updateCategory(newBooksKey, newInstance.title);
+              toggleDialog();
+              showSuccess('Post added successfully');
+            })
+            .catch(err => {
+              console.error('Error:', err) // eslint-disable-line no-console
+              showError(err.message || 'Could not add post')
+              return Promise.reject(err)
+            })
         }
-      }
-/*
-      console.log("no file!");
-      var newBooksKey = firebase.database().ref().child('books').push().key;
-      var newNotificationsKey = firebase.database().ref().child('books').push().key;
+      }, function(e) {
+        console.error(e); // TypeError: Throwing
+      })
 
-      var updates = {};
-      updates['/books/' + newBooksKey] = {
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
-      };
-      updates['/notifications/' + newNotificationsKey] = {
-        userId: auth.uid,
-        body: `"${newInstance.title}" posted for selling.`,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
-      };
-
-      return firebase.database().ref().update(updates)
-        .then((ret) => {
-          console.log(ret);
-          console.log(typeof updateCategory);
-          updateCategory(ret, newInstance.title);
-          toggleDialog();
-          showSuccess('Post added successfully');
-        })
-        .catch(err => {
-          console.error('Error:', err) // eslint-disable-line no-console
-          showError(err.message || 'Could not add post')
-          return Promise.reject(err)
-        })*/
     }
 
   
@@ -213,8 +205,6 @@ function ProjectsList() {
     return <LoadingSpinner />
   }
 
-
-
   return (
     <div className={classes.root}>
       <h2>Selling
@@ -245,6 +235,7 @@ function ProjectsList() {
                 recepient={project && project.value.recepient}
                 address={project && project.value.address}
                 reviewText = {project && project.value.reviewText}
+                book={project}
               />
             )
           })}

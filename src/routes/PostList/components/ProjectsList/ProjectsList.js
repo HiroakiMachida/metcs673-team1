@@ -16,13 +16,7 @@ import styles from './ProjectsList.styles'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Radio from '@material-ui/core/Radio'
-import Input from '@material-ui/core/Input'
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
 
@@ -112,14 +106,6 @@ function ProjectsList() {
   const pricerange = " <= price <= "
   const bookstatus = "Book Status: "
   const bookclassify = "Book Category: "
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  const a = "fdsfds";
 
   const [state,setState] = useState({
     checkedA: false,
@@ -145,14 +131,6 @@ function ProjectsList() {
       setOpen(true);
     }
   }
-
-  const advancesearch = () => {
-    var pl = params.get("priceupper")
-    var pu = params.get("priceupper")
-    console.log(pu)
-    console.log(pl)
-  }
-
 
   // Show spinner while projects are loading
   if (!isLoaded(projects) || !isLoaded(users)) {
@@ -203,46 +181,6 @@ function ProjectsList() {
     return ((params.get("checked1") === null ) && (params.get("checked2") === null ) && (params.get("checked3") === null )
     && (params.get("checked4") === null ))
   }
-
-  Array.prototype.remove = function() {
-    var what, a = arguments, L = a.length, ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-  };
-
-  const allcategory = []
-
-  function getAllCategory() {
-    projects.forEach(element => {
-      if (!allcategory.includes(element.value.category) && element.value.category != undefined) {
-        allcategory.push(element.value.category)
-      }
-      /*
-      if (!state.allcategory.some(row => row.includes(element.value.category)) && element.value.category !== undefined){
-        state.allcategory.push( [element.value.category, true]);
-      }*/
-    });
-  }
-
-
-  //getAllCategory()
-
-  /**
-   * 
-          {allcategory.map(cate => {
-            return (
-              <FormControlLabel control={<Checkbox checked={state.checked1} onChange={handleChange}name="checked1" />}
-                          key={cate}  label={cate} name={cate} value={cate}
-              />
-            )
-          })}
-   */
-
 
   return (
     <div className={classes.root}>
