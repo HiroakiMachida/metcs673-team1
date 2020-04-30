@@ -86,31 +86,56 @@ function useProjectsList() {
       reader.addEventListener("load", function () {
         // convert image file to base64 string
         persist(reader.result);
-        //preview.src = reader.result;
+
       }, false);
       reader.readAsDataURL(file);
-    }else{
-      console.log("no file!");
-      var newBooksKey = firebase.database().ref().child('books').push().key;
+    }else {
 
-      var updates = {};
-      updates['/books/' + newBooksKey] = {
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
-      };
+      var imageURL = "https://loremflickr.com/320/240/"+ newInstance.title;
+      window.alert(imageURL);
+      if (imageURL != null) {
+        return firebase
+            .push('books', {
+              ...newInstance,
+              createdBy: auth.uid,
+              createdAt: firebase.database.ServerValue.TIMESTAMP,
+              attached: imageURL
+            })
+            .then((ret) => {
+              console.log(ret);
+              console.log(typeof updateCategory);
+              updateCategory(ret, newInstance.title);
+              toggleDialog()
+              showSuccess('Post updated successfully')
+            })
+            .catch(err => {
+              console.error('Error:', err) // eslint-disable-line no-console
+              showError(err.message || 'Could not add post')
+              return Promise.reject(err)
+            })
+      } else {
+        console.log("no file!");
+        var newBooksKey = firebase.database().ref().child('books').push().key;
 
-      return firebase.database().ref().update(updates)
-        .then((ret) => {
-          updateCategory(newBooksKey, newInstance.title);
-          toggleDialog();
-          showSuccess('Post added successfully');
-        })
-        .catch(err => {
-          console.error('Error:', err) // eslint-disable-line no-console
-          showError(err.message || 'Could not add post')
-          return Promise.reject(err)
-        })
+        var updates = {};
+        updates['/books/' + newBooksKey] = {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        return firebase.database().ref().update(updates)
+            .then((ret) => {
+              updateCategory(newBooksKey, newInstance.title);
+              toggleDialog();
+              showSuccess('Post added successfully');
+            })
+            .catch(err => {
+              console.error('Error:', err) // eslint-disable-line no-console
+              showError(err.message || 'Could not add post')
+              return Promise.reject(err)
+            })
+      }
     }
 
   
