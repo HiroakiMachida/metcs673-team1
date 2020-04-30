@@ -72,6 +72,36 @@ function useProjectsList() {
       .catch(error=>console.log(error))
   }
 
+  function updateCategoryML(newBooksKey, title){
+    // For production
+    const url = 'https://api.monkeylearn.com/v3/classifiers/cl_Vdw8kE6v/classify/';
+
+    const data = {
+      "data": [
+        title
+      ]
+    }
+
+    const othePram = {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": "Token e62e63d2651c74c9c70f8c0258f4f33cf3baffd7"
+      },
+      body: JSON.stringify(data),
+      method: "POST"
+    }
+   return fetch(url,othePram)
+      .then(response => 
+        response.json().then(data => ({
+          data: data,
+          status: response.status
+      })
+      ).then(res => {
+         firebase.update('books/' + newBooksKey.path.pieces_[1], { category: res.data[0].classifications[0].tag_name});
+      }))
+      .catch(error=>console.log(error))
+  }
+
   function addProject(newInstance) {
     const file = document.getElementById("image").files[0]
     console.log(file);
@@ -102,7 +132,7 @@ function useProjectsList() {
 
       return firebase.database().ref().update(updates)
         .then((ret) => {
-          updateCategory(newBooksKey, newInstance.title);
+          updateCategoryML(newBooksKey, newInstance.title);
           toggleDialog();
           showSuccess('Post added successfully');
         })
@@ -126,7 +156,7 @@ function useProjectsList() {
         .then((ret) => {
           console.log(ret);
           console.log(typeof updateCategory);
-          updateCategory(ret, newInstance.title);
+          updateCategoryML(ret, newInstance.title);
           toggleDialog()
           showSuccess('Post updated successfully')
         })

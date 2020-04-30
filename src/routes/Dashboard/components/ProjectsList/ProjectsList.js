@@ -4,6 +4,7 @@ import styles from './ProjectsList.styles'
 import WantingList from '../WantingList'
 import SellingList from '../SellingList'
 import BuyingList from '../BuyingList'
+import RecommendationsList from '../RecommendationsList'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -58,7 +59,7 @@ function ProjectsList() {
 
       
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+       <Grid item xs={12}>
           <Paper className={classes.paper}>
             <h1>Notifications</h1>
             {!isEmpty(notifications) &&
@@ -69,6 +70,13 @@ function ProjectsList() {
               })}
           </Paper>
         </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <h1>Recommendations</h1>
+            <RecommendationsList/>
+          </Paper>
+        </Grid>
+        
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <h1>Sell textbooks to market</h1>

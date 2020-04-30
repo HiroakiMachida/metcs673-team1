@@ -20,7 +20,7 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
   const classes = useStyles()
   const firebase = useFirebase()
   const { showError, showSuccess } = useNotifications()
-
+  const category = project.value.category
 
 
   // New dialog
@@ -83,6 +83,7 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
         status={status}
         price={price}
         sellerId={project.value.c}
+        category={project.value.category}
       />
       <div className={classes.top} style={{ marginBottom: "15px"}} >
         {attached ? (<img src={attached} height="50" width="50" alt="cover" />):''}
@@ -110,6 +111,14 @@ function ProjectTile({ name, title, isbn, status, price, projectId, showDelete, 
             </th>
             <th>
                 {isbn || 'No ISBN'}
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <Chip size="small" label="Category"  />  
+            </th>
+            <th>
+                {category || 'No Category'}
             </th>
           </tr>
           <tr>

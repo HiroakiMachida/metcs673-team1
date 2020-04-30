@@ -8,13 +8,33 @@ import Button from '@material-ui/core/Button'
 import { validateEmail } from 'utils/form'
 import ProviderDataForm from '../ProviderDataForm'
 import styles from './AccountForm.styles'
+import ToggleButton from '@material-ui/lab/ToggleButton';
 
 const useStyles = makeStyles(styles)
 
 function AccountForm({ account, onSubmit }) {
   const classes = useStyles()
 
+  var [softwareEngineering, seSelected] = React.useState(account.preferences ? account.preferences.includes("Software Engineering") : false);
+  var [java, javaSelected] = React.useState(account.preferences ? account.preferences.includes("JAVA") : false);
+  var [uml, umlSelected] = React.useState(account.preferences ? account.preferences.includes("UML") : false);
+  var [ai, aiSelected] = React.useState( account.preferences ? account.preferences.includes("AI") : false);
+
   function handleSubmit(values, { setSubmitting }) {
+    values.preferences = [];
+    if(java){
+      values.preferences.push("JAVA")
+    }
+    if(softwareEngineering){
+      values.preferences.push("Software Engineering")
+    }
+    if(ai){
+      values.preferences.push("AI")
+    }
+    if(uml){
+      values.preferences.push("UML")
+    }
+
     onSubmit(values).then(() => {
       setSubmitting(false)
     })
@@ -49,6 +69,45 @@ function AccountForm({ account, onSubmit }) {
               margin="normal"
               fullWidth
             />
+            <div align="left" className={classes.fields} >
+            <label>Preferences</label>
+            <br></br>
+        
+            <ToggleButton value="Software Engineering" 
+               selected = {softwareEngineering}
+               onChange={() => {
+                seSelected(!softwareEngineering)
+              }}
+                aria-label="Software Engineering">
+              <label>Software Engineering</label>
+            </ToggleButton>
+
+ 
+            <ToggleButton value="Java" 
+               selected = {java}
+               onChange={() =>  javaSelected(!java)}
+                aria-label="Java">
+              <label>Java</label>
+            </ToggleButton>
+
+            <ToggleButton value="UML" 
+               selected = {uml}
+               onChange={() => {
+                umlSelected(!uml)
+              }}
+                aria-label="UML">
+              <label>UML</label>
+            </ToggleButton>
+
+            <ToggleButton value="AI" 
+               selected = {ai}
+               onChange={() => {
+                aiSelected(!ai)
+              }}
+                aria-label="ai">
+              <label>Artificial Intelligence</label>
+            </ToggleButton>
+            </div>
           </div>
           {!!account && !!account.providerData && (
             <div>
