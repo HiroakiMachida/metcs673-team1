@@ -3,15 +3,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx';
 import { useSelector } from 'react-redux'
 import {
-  useFirebase,
   useFirebaseConnect,
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../ProjectTile'
-import BuyBookDialog from '../BuyBookDialog'
 import styles from './ProjectsList.styles'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -24,8 +21,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 const useStyles = makeStyles(styles)
 
 function useProjectsList() {
-  const { showSuccess, showError } = useNotifications()
-  const firebase = useFirebase()
   const search = window.location.search;
   const params = new URLSearchParams(search);
 
@@ -53,36 +48,8 @@ function useProjectsList() {
   const projects = useSelector(state => state.firebase.ordered.books)
   const users = useSelector(state => state.firebase.ordered.users)
   const autocomplete = useSelector(state => state.firebase.ordered.autocomplete)
-
-  // New dialog
-  const [newDialogOpen, changeDialogState] = useState(false)
-  const [book, changeBook] = useState('book')
-  const toggleDialog = () => changeDialogState(!newDialogOpen)
-
-  function buyBook(newInstance) {
-    if (!auth.uid) {
-      return showError('You must be logged in to create a project')
-    }
-    console.log(newInstance)
-    return firebase
-      .update('books/'+book.key, {
-        ...newInstance,
-        buyer_id: auth.uid,
-        delivery_status: 'sold'
-      })
-      .then(() => {
-        toggleDialog()
-        showSuccess('Bought it successfully')
-        window.location.href = "/dashboard";
-      })
-      .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not add project')
-        return Promise.reject(err)
-      })
-  }
-
-  return { projects, buyBook, newDialogOpen, toggleDialog, params, changeBook, book, users, autocomplete }
+ 
+    return { projects, params, users, autocomplete,auth }
 }
 
 
@@ -90,14 +57,10 @@ function ProjectsList() {
   const classes = useStyles()
   const {
     projects,
-    buyBook,
-    newDialogOpen,
-    toggleDialog,
     params,
-    changeBook,
-    book,
     users,
-    autocomplete
+    autocomplete,
+    auth
   } = useProjectsList()
 
 
@@ -106,6 +69,9 @@ function ProjectsList() {
   const pricerange = " <= price <= "
   const bookstatus = "Book Status: "
   const bookclassify = "Book Category: "
+
+
+  const a = "fdsfds";
 
   const [state,setState] = useState({
     checkedA: false,
@@ -131,6 +97,16 @@ function ProjectsList() {
       setOpen(true);
     }
   }
+
+
+  const advancesearch = () => {
+    var pl = params.get("priceupper")
+    var pu = params.get("priceupper")
+    console.log(pu)
+    console.log(pl)
+  }
+
+
 
   // Show spinner while projects are loading
   if (!isLoaded(projects) || !isLoaded(users)) {
@@ -274,13 +250,7 @@ function ProjectsList() {
         </Drawer>
         </div>
 
-      <BuyBookDialog
-        onSubmit={buyBook}
-        open={newDialogOpen}
-        onRequestClose={toggleDialog}
-        book={book}
-        users={users}
-      />
+
 
       <h2>Search result - Books you can buy</h2>
       <div className={classes.tiles}>
@@ -296,6 +266,7 @@ function ProjectsList() {
                           || e.value.category == checked2()
                           || e.value.category == checked3()
                           || e.value.category == checked4()))
+
                         ).map((project, ind) => {
             return (
               <ProjectTile
@@ -308,10 +279,10 @@ function ProjectsList() {
                 price={project && project.value.price}
                 projectId={project.key}
                 attached={project && project.value.attached}
-                toggleDialog={toggleDialog}
-                changeBook={changeBook}
                 project={project}
-
+                sellerId={project && project.value.createdBy}
+                users={users}
+                auth={auth}
               />
             )
           })}

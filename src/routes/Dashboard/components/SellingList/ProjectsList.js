@@ -73,22 +73,9 @@ function useProjectsList() {
       }))
       .catch(error=>console.log(error))
   }
-//TODO
-  const queryString = require('query-string');
-  function addProject(newInstance) {
-/*
-    var gis = require('g-i-s');
-    gis('cats', logResults);
   
-    function logResults(error, results) {
-      if (error) {
-        console.log(error);
-      }
-      else {
-        console.log(JSON.stringify(results, null, '  '));
-        }
-    }
-    */
+  function addProject(newInstance) {
+
 
     const file = document.getElementById("image").files[0]
     console.log(file);
@@ -109,7 +96,6 @@ function useProjectsList() {
     }else{
       // image auto fill
       const ipics = require('ipics');
-        //console.log(Promise.resolve( ipics('cat', 'book')));
       ipics(newInstance.title, 'book').then(function(v) {
         console.log(v[0]); // "Resolving"
         if (v[0] != undefined) {
