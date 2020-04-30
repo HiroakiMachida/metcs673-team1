@@ -71,6 +71,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
         {({ errors, isSubmitting, setFieldValue }) => (
           <Form className={classes.root}>
             <DialogContent>
+              Book cover:<input id="image" type="file"/>
               <Field
                 id="quaggaIsbn"
                 name="isbn"
@@ -101,7 +102,6 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
                 margin="normal"
                 fullWidth
               />
-              Book cover:<input id="image" type="file"/>
             </DialogContent>
             <DialogActions>
               <Button onClick={onRequestClose} color="secondary">
