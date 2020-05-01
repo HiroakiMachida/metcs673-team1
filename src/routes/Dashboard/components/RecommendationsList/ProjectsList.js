@@ -82,7 +82,7 @@ function ProjectsList({delivery_status}) {
     <div className={classes.root}>
       <div className={classes.tiles}>
         {!isEmpty(projects) &&
-          projects.filter(p => p && p.value.delivery_status!== "sold" && p.value.delivery_status!== "review_submitted" && p.value.delivery_status!== "shipped"  && p.value.delivery_status!== "received" && p.value.createdBy !== auth.uid  && p.value.wanting !== true && (categoryMatch(p) ) ).map((project, ind) => {  
+          projects.filter(p => p && p.value.delivery_status!== "sold"  && p.value.delivery_status!== "shipping" && p.value.delivery_status!== "review_submitted" && p.value.delivery_status!== "shipped"  && p.value.delivery_status!== "received" && p.value.createdBy !== auth.uid  && p.value.wanting !== true && (categoryMatch(p) ) ).map((project, ind) => {  
             return (
               <ProjectTile
                 key={`Project-${project.key}-${ind}`}
