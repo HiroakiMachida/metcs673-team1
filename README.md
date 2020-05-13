@@ -7,6 +7,10 @@
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
+## Project overview
+
+See deliverables/20200501_iteration3/team1_final\ presentation_20200426_v1.pptx
+
 ## Table of Contents
 
 1. [Features](#features)
